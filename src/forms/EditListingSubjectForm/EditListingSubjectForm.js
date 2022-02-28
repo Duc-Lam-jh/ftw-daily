@@ -5,14 +5,12 @@ import { Form as FinalForm } from 'react-final-form';
 import { intlShape, injectIntl, FormattedMessage } from '../../util/reactIntl';
 import classNames from 'classnames';
 import { propTypes } from '../../util/types';
-import { maxLength, required, composeValidators } from '../../util/validators';
+import { required, composeValidators } from '../../util/validators';
 import { Form, Button, FieldTextInput } from '../../components';
 import CustomClassLevelTypeSelectFieldMaybe from './CustomClassLevelTypeSelectFieldMaybe';
 import CustomClassLevelSelectFieldMaybe from './CustomClassLevelSelectFieldMaybe';
 
 import css from './EditListingSubjectForm.module.css';
-
-const TITLE_MAX_LENGTH = 60;
 
 const EditListingSubjectFormComponent = props => (
   <FinalForm
@@ -42,14 +40,6 @@ const EditListingSubjectFormComponent = props => (
       const subjectRequiredMessage = intl.formatMessage({
         id: 'EditListingSubjectForm.subjectRequired',
       });
-      const maxLengthMessage = intl.formatMessage(
-        { id: 'EditListingSubjectForm.maxLength' },
-        {
-          maxLength: TITLE_MAX_LENGTH,
-        }
-      );
-
-      const maxLength60Message = maxLength(maxLengthMessage, TITLE_MAX_LENGTH);
 
       const { updateListingError, showListingsError } = fetchErrors || {};
       const errorMessageUpdateListing = updateListingError ? (
@@ -81,8 +71,7 @@ const EditListingSubjectFormComponent = props => (
             type="text"
             label={subjectMessage}
             placeholder={subjectPlaceholderMessage}
-            maxLength={TITLE_MAX_LENGTH}
-            validate={composeValidators(required(subjectRequiredMessage), maxLength60Message)}
+            validate={composeValidators(required(subjectRequiredMessage))}
             autoFocus
           />
 
