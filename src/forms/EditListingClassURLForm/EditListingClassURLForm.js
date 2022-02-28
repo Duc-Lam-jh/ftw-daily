@@ -5,12 +5,10 @@ import { Form as FinalForm } from 'react-final-form';
 import { intlShape, injectIntl, FormattedMessage } from '../../util/reactIntl';
 import classNames from 'classnames';
 import { propTypes } from '../../util/types';
-import { maxLength, required, composeValidators } from '../../util/validators';
+import { required, composeValidators } from '../../util/validators';
 import { Form, Button, FieldTextInput } from '../../components';
 
 import css from './EditListingClassURLForm.module.css';
-
-const TITLE_MAX_LENGTH = 60;
 
 const EditListingClassURLFormComponent = props => {
   const { initialValues } = props;
@@ -58,14 +56,6 @@ const EditListingClassURLFormComponent = props => {
         const classURLRequiredMessage = intl.formatMessage({
           id: 'EditListingClassURLForm.classURLRequired',
         });
-        const maxLengthMessage = intl.formatMessage(
-          { id: 'EditListingClassURLForm.maxLength' },
-          {
-            maxLength: TITLE_MAX_LENGTH,
-          }
-        );
-
-        const maxLength60Message = maxLength(maxLengthMessage, TITLE_MAX_LENGTH);
 
         const { updateListingError, showListingsError } = fetchErrors || {};
         const errorMessageUpdateListing = updateListingError ? (
@@ -96,8 +86,7 @@ const EditListingClassURLFormComponent = props => {
                 type="text"
                 label={classURLMessage}
                 placeholder={classURLPlaceholderMessage}
-                maxLength={TITLE_MAX_LENGTH}
-                validate={i === 0 ? composeValidators(required(classURLRequiredMessage), maxLength60Message) : null}
+                validate={i === 0 ? composeValidators(required(classURLRequiredMessage)) : null}
                 autoFocus
               />
             )
