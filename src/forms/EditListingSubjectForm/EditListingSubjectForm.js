@@ -6,9 +6,7 @@ import { intlShape, injectIntl, FormattedMessage } from '../../util/reactIntl';
 import classNames from 'classnames';
 import { propTypes } from '../../util/types';
 import { required, composeValidators } from '../../util/validators';
-import { Form, Button, FieldTextInput } from '../../components';
-import CustomClassLevelTypeSelectFieldMaybe from './CustomClassLevelTypeSelectFieldMaybe';
-import CustomClassLevelSelectFieldMaybe from './CustomClassLevelSelectFieldMaybe';
+import { Form, Button, FieldTextInput, CustomSelectFieldMaybe } from '../../components';
 
 import css from './EditListingSubjectForm.module.css';
 
@@ -75,22 +73,24 @@ const EditListingSubjectFormComponent = props => (
             autoFocus
           />
 
-          <CustomClassLevelTypeSelectFieldMaybe
+          <CustomSelectFieldMaybe
             id="typeOfLevel"
             name="typeOfLevel"
-            classLevelTypes={typeOfLevels}
+            options={typeOfLevels}
+            formName='EditListingSubjectForm'
             intl={intl}
           />
 
           {levelType ?
-            <CustomClassLevelSelectFieldMaybe
+            <CustomSelectFieldMaybe
               id="level"
               name="level"
-              classLevels={
+              options={
                 levelType === 'level'
                 ? classLevels.filter(item => item.type === 'level')
                 : classLevels.filter(item => item.type === 'group')
               }
+              formName='EditListingSubjectForm'
               intl={intl}
             />
             : null
