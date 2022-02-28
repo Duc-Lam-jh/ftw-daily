@@ -161,11 +161,12 @@ export class EditListingPhotosFormComponent extends Component {
           const imageIdsFromPreviousSubmit = arrayOfImgIds(this.submittedImages);
           const imageArrayHasSameImages = isEqual(imageIdsFromProps, imageIdsFromPreviousSubmit);
           const pristineSinceLastSubmit = submittedOnce && imageArrayHasSameImages;
+          const isMainImageUploaded = mainImage.length > 0 ? true : false;
 
           const submitReady = (updated && pristineSinceLastSubmit) || ready;
           const submitInProgress = updateInProgress;
           const submitDisabled =
-            invalid || disabled || submitInProgress || imageUploadRequested || ready;
+          invalid || disabled || submitInProgress || imageUploadRequested || ready || !isMainImageUploaded;
 
           const classes = classNames(css.root, className);
           return (
