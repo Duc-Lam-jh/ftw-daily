@@ -9,8 +9,7 @@ import { LINE_ITEM_NIGHT, LINE_ITEM_DAY, propTypes, LINE_ITEM_HOUR } from '../..
 import * as validators from '../../util/validators';
 import { formatMoney } from '../../util/currency';
 import { types as sdkTypes } from '../../util/sdkLoader';
-import { Button, Form, FieldCurrencyInput } from '../../components';
-import CustomPaymentTypeSelectFieldMaybe from './CustomPaymentTypeSelectFieldMaybe';
+import { Button, Form, FieldCurrencyInput, CustomSelectFieldMaybe } from '../../components';
 import css from './EditListingPricingForm.module.css';
 
 const { Money } = sdkTypes;
@@ -105,10 +104,11 @@ export const EditListingPricingFormComponent = props => (
             validate={priceValidators}
           />
 
-          <CustomPaymentTypeSelectFieldMaybe
+          <CustomSelectFieldMaybe
             id="paymentType"
             name="paymentType"
-            paymentTypes={paymentTypes}
+            options={paymentTypes}
+            formName='EditListingPricingForm'
             intl={intl}
           />
 
