@@ -5,21 +5,16 @@ import { Form as FinalForm } from 'react-final-form';
 import { intlShape, injectIntl, FormattedMessage } from '../../util/reactIntl';
 import classNames from 'classnames';
 import { propTypes } from '../../util/types';
-import { required, composeValidators } from '../../util/validators';
+import { required, composeValidators, validBusinessURL } from '../../util/validators';
 import { Form, Button, FieldTextInput } from '../../components';
 
 import css from './EditListingClassURLForm.module.css';
 
 const EditListingClassURLFormComponent = props => {
   const { initialValues } = props;
-  const [numberOfURL, setNumberofURL] = useState(1);
+  const [numberOfURL, setNumberofURL] = useState(Object.keys(initialValues).length ? Object.keys(initialValues).length : 1);
   const [urls, setURLS] = useState(initialValues);
   const urlInputContainerRef = useRef(null);
-
-  useEffect(() => {
-    const numberOfURLFromProps = Object.keys(initialValues).length > 0 ? Object.keys(initialValues).length : 1;
-    setNumberofURL(numberOfURLFromProps);
-  }, [])
 
   return (
     <FinalForm
@@ -78,7 +73,11 @@ const EditListingClassURLFormComponent = props => {
                 type="text"
                 label={classURLMessage}
                 placeholder={classURLPlaceholderMessage}
-                validate={i === 0 ? composeValidators(required(classURLRequiredMessage)) : null}
+                validate={
+                  i === 0
+                    ? composeValidators(required(classURLRequiredMessage), validBusinessURL(classURLRequiredMessage))
+                    : null
+                }
                 autoFocus
               />
             )

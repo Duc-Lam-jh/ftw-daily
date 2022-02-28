@@ -171,7 +171,7 @@
   "EditListingAvailabilityPanel.createListingTitle": "When is it available?",
   "EditListingClassURLForm.classURL": "Provide URL for class",
   "EditListingClassURLForm.classURLPlaceholder": "Specify the URL of the class",
-  "EditListingClassURLForm.classURLRequired": "You need to specify the URL",
+  "EditListingClassURLForm.classURLRequired": "You need to specify a valid URL",
   "EditListingClassURLForm.showListingFailed": "Fetching listing data failed",
   "EditListingClassURLForm.maxLength": "Must be {maxLength} characters or less",
   "EditListingDescriptionForm.categoryLabel": "Sauna type",
