@@ -176,7 +176,6 @@ export class EditListingPhotosFormComponent extends Component {
                 this.submittedImages = images;
                 handleSubmit(e);
               }}
-            // enctype='multipart/form-data'
             >
               {updateListingError ? (
                 <p className={css.error}>
