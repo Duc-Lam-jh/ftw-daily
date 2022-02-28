@@ -17,13 +17,9 @@ const EditListingClassURLFormComponent = props => {
   const urlInputContainerRef = useRef(null);
 
   useEffect(() => {
-    let numberOfURLFromProps = 0;
-    for (let url in initialValues){
-      numberOfURLFromProps++;
-    }
-
-    numberOfURLFromProps > 0 ? setNumberofURL(numberOfURLFromProps) : setNumberofURL(1);
-  },[])
+    const numberOfURLFromProps = Object.keys(initialValues).length > 0 ? Object.keys(initialValues).length : 1;
+    setNumberofURL(numberOfURLFromProps);
+  }, [])
 
   return (
     <FinalForm
