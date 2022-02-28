@@ -85,7 +85,7 @@ const EditListingSubjectFormComponent = props => (
             <CustomSelectFieldMaybe
               id="level"
               name="level"
-              options={classLevels.filter(item => item.type === (levelType === 'level' ? 'level' : 'group'))}
+              options={classLevels.filter(item => item.type === levelType)}
               formName='EditListingSubjectForm'
               intl={intl}
             />
