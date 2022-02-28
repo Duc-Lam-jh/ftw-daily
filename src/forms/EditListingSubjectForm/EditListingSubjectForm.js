@@ -82,18 +82,15 @@ const EditListingSubjectFormComponent = props => (
             intl={intl}
           />
 
-          {levelType ? levelType === 'level' ?
+          {levelType ?
             <CustomClassLevelSelectFieldMaybe
               id="level"
               name="level"
-              classLevels={classLevels.filter(item => item.type === 'level')}
-              intl={intl}
-            /> 
-            :
-            <CustomClassLevelSelectFieldMaybe
-              id="level"
-              name="level"
-              classLevels={classLevels.filter(item => item.type === 'group')}
+              classLevels={
+                levelType === 'level'
+                ? classLevels.filter(item => item.type === 'level')
+                : classLevels.filter(item => item.type === 'group')
+              }
               intl={intl}
             />
             : null
