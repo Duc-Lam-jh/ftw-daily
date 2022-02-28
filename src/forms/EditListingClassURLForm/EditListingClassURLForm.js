@@ -22,11 +22,7 @@ const EditListingClassURLFormComponent = props => {
       numberOfURLFromProps++;
     }
 
-    if (numberOfURLFromProps === 0){
-      numberOfURLFromProps++;
-    }
-
-    setNumberofURL(numberOfURLFromProps);
+    numberOfURLFromProps > 0 ? setNumberofURL(numberOfURLFromProps) : setNumberofURL(1);
   },[])
 
   return (
