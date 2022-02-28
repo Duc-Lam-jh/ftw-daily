@@ -19,7 +19,7 @@ const EditListingSubjectFormComponent = props => (
     {...props}
     render={formRenderProps => {
       const {
-        groupLevelTypes,
+        typeOfLevels,
         classLevels,
         className,
         disabled,
@@ -68,7 +68,7 @@ const EditListingSubjectFormComponent = props => (
       const submitReady = (updated && pristine) || ready;
       const submitInProgress = updateInProgress;
       const submitDisabled = invalid || disabled || submitInProgress;
-      const levelType = values.groupLevelType;
+      const levelType = values.typeOfLevel;
 
       return (
         <Form className={classes} onSubmit={handleSubmit}>
@@ -87,9 +87,9 @@ const EditListingSubjectFormComponent = props => (
           />
 
           <CustomClassLevelTypeSelectFieldMaybe
-            id="groupLevelType"
-            name="groupLevelType"
-            classLevelTypes={groupLevelTypes}
+            id="typeOfLevel"
+            name="typeOfLevel"
+            classLevelTypes={typeOfLevels}
             intl={intl}
           />
 

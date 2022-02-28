@@ -45,11 +45,11 @@ const EditListingSubjectPanel = props => {
   );
 
   const subject = publicData && publicData.subject;
-  const groupLevelType = publicData.level && publicData.level.type;
+  const typeOfLevel = publicData.level && publicData.level.type;
   const level = publicData.level && publicData.level.level;
-  const initialValues = { subject, groupLevelType, level };
+  const initialValues = { subject, typeOfLevel, level };
 
-  const groupLevelTypeOptions = findOptionsForSelectFilter('classLevelType', config.custom.filters);
+  const typeOfLevelOptions = findOptionsForSelectFilter('classLevelType', config.custom.filters);
   const levelOptions = findOptionsForSelectFilter('classLevel', config.custom.filters);
   return (
     <div className={classes}>
@@ -59,13 +59,13 @@ const EditListingSubjectPanel = props => {
         name={FEATURES_NAME}
         initialValues={initialValues}
         onSubmit={values => {
-          const { subject = [], groupLevelType, level } = values;
+          const { subject = [], typeOfLevel, level } = values;
           
           const updatedValues = {
             publicData: { 
               subject,
               level: {
-                type: groupLevelType,
+                type: typeOfLevel,
                 level: level,
               },
             },
@@ -79,7 +79,7 @@ const EditListingSubjectPanel = props => {
         updated={panelUpdated}
         updateInProgress={updateInProgress}
         fetchErrors={errors}
-        groupLevelTypes={groupLevelTypeOptions}
+        typeOfLevels={typeOfLevelOptions}
         classLevels={levelOptions}
       />
     </div>
