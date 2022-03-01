@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormattedMessage } from '../../util/reactIntl';
 import { InlineTextButton } from '../../components';
-import { LINE_ITEM_NIGHT, LINE_ITEM_DAY } from '../../util/types';
+import { LINE_ITEM_NIGHT, LINE_ITEM_DAY, LINE_ITEM_HOUR } from '../../util/types';
 import config from '../../config';
 
 import css from './ListingPage.module.css';
@@ -20,12 +20,15 @@ const SectionHeading = props => {
   const unitType = config.bookingUnitType;
   const isNightly = unitType === LINE_ITEM_NIGHT;
   const isDaily = unitType === LINE_ITEM_DAY;
+  const isHourly = unitType === LINE_ITEM_HOUR;
 
-  const unitTranslationKey = isNightly
-    ? 'ListingPage.perNight'
-    : isDaily
-    ? 'ListingPage.perDay'
-    : 'ListingPage.perUnit';
+  const unitTranslationKey = isHourly
+    ? 'ListingPage.perHour'
+    : isNightly
+      ? 'ListingPage.perNight'
+      : isDaily
+        ? 'ListingPage.perDay'
+        : 'ListingPage.perUnit';
 
   return (
     <div className={css.sectionHeading}>
