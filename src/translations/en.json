@@ -421,6 +421,7 @@
   "ListingPage.rulesTitle": "Sauna rules",
   "ListingPage.schemaTitle": "{title} - {price} | {siteTitle}",
   "ListingPage.viewImagesButton": "View photos ({count})",
+  "ListingPage.viewMainImageButton": "View banner photo",
   "ListingPage.yourHostHeading": "Your host",
   "LoadableComponentErrorBoundaryPage.title": "Page not fetched",
   "LoadableComponentErrorBoundaryPage.heading": "Oops, we couldn't fetch the page.",

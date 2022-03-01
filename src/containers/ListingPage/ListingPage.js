@@ -43,6 +43,7 @@ import { TopbarContainer, NotFoundPage } from '../../containers';
 
 import { sendEnquiry, fetchTransactionLineItems, setInitialValues } from './ListingPage.duck';
 import SectionImages from './SectionImages';
+import SectionMainImage from './SectionMainImage';
 import SectionAvatar from './SectionAvatar';
 import SectionHeading from './SectionHeading';
 import SectionDescriptionMaybe from './SectionDescriptionMaybe';
@@ -407,7 +408,7 @@ export class ListingPageComponent extends Component {
           <LayoutWrapperTopbar>{topbar}</LayoutWrapperTopbar>
           <LayoutWrapperMain>
             <div>
-              <SectionImages
+              <SectionMainImage
                 title={title}
                 listing={currentListing}
                 isOwnListing={isOwnListing}
