@@ -422,6 +422,7 @@
   "ListingPage.reviewsHeading": "Reviews ({count})",
   "ListingPage.rulesTitle": "Sauna rules",
   "ListingPage.schemaTitle": "{title} - {price} | {siteTitle}",
+  "ListingPage.imagesTitle": "Some photos of the class",
   "ListingPage.viewImagesButton": "View photos ({count})",
   "ListingPage.viewMainImageButton": "View banner photo",
   "ListingPage.yourHostHeading": "Your host",

@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { FormattedMessage } from '../../util/reactIntl';
 
 import css from './ListingPage.module.css';
@@ -15,12 +15,12 @@ const SectionSubjectLevel = props => {
     setIsSectionHidden(!isSectionHidden);
   }
 
-  const toggleButtonRef = useRef(null);
   const levelLabel = options.filter(item => item.key === publicData.level.level);
 
   return (
     <div className={css.sectionSubject}>
-        <div ref={toggleButtonRef} className={isSectionHidden ? classNames(css.toggleButton, css.hidden) : css.toggleButton} onClick={handleToggleSection}></div>
+        <div className={isSectionHidden ? classNames(css.toggleButton, css.hidden) : css.toggleButton} 
+        onClick={handleToggleSection}></div>
       <h2 className={css.subjectTitle}>
         <FormattedMessage id="ListingPage.subjectTitle" />
       </h2>

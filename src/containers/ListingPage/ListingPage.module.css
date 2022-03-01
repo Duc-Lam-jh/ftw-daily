@@ -24,6 +24,37 @@
 .sectionImages {
 }
 
+.sectionSubImages{
+  position: relative;
+}
+
+.imagesTitle {
+  /* Font */
+  @apply --marketplaceH3FontStyles;
+  color: var(--matterColorAnti);
+
+  margin-top: 0;
+  margin-bottom: 16px;
+  @media (--viewportMedium) {
+    margin-top: 0;
+    margin-bottom: 12px;
+  }
+}
+
+.sectionSubImages .threeToTwoWrapper {
+  max-height: 500px;
+  overflow: hidden;
+  transition: 300ms;
+  
+  @media (--viewportLarge) {
+    padding: 0px 36px 0 36px;
+  }
+}
+
+.sectionSubImages .threeToTwoWrapper.hidden {
+  max-height: 0px;
+}
+
 .threeToTwoWrapper {
   /* Layout */
   display: block;

@@ -43,6 +43,7 @@ import { TopbarContainer, NotFoundPage } from '../../containers';
 
 import { sendEnquiry, fetchTransactionLineItems, setInitialValues } from './ListingPage.duck';
 import SectionImages from './SectionImages';
+import SectionSubImages from './SectionSubImages';
 import SectionMainImage from './SectionMainImage';
 import SectionAvatar from './SectionAvatar';
 import SectionHeading from './SectionHeading';
@@ -436,6 +437,13 @@ export class ListingPageComponent extends Component {
                   />
                   <SectionDescriptionMaybe description={description} />
                   <SectionSubjectLevel options={levelOptions} publicData={publicData} />
+                  <SectionSubImages
+                    title={title}
+                    listing={currentListing}
+                    imageCarouselOpen={this.state.imageCarouselOpen}
+                    onImageCarouselClose={() => this.setState({ imageCarouselOpen: false })}
+                    handleViewPhotosClick={handleViewPhotosClick}
+                    onManageDisableScrolling={onManageDisableScrolling} />
                   <SectionReviews reviews={reviews} fetchReviewsError={fetchReviewsError} />
                   <SectionHostMaybe
                     title={title}
