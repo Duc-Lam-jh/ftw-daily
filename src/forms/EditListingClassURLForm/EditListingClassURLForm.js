@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { arrayOf, bool, func, shape, string } from 'prop-types';
+import { arrayOf, bool, func, object, objectOf, shape, string } from 'prop-types';
 import { compose } from 'redux';
 import { Form as FinalForm } from 'react-final-form';
 import { intlShape, injectIntl, FormattedMessage } from '../../util/reactIntl';
@@ -129,6 +129,7 @@ const EditListingClassURLFormComponent = props => {
 EditListingClassURLFormComponent.defaultProps = { className: null, fetchErrors: null };
 
 EditListingClassURLFormComponent.propTypes = {
+  initialValues: object.isRequired,
   className: string,
   intl: intlShape.isRequired,
   onSubmit: func.isRequired,
