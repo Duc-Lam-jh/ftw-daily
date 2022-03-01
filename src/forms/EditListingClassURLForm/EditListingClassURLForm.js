@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { arrayOf, bool, func, object, objectOf, shape, string } from 'prop-types';
 import { compose } from 'redux';
 import { Form as FinalForm } from 'react-final-form';
@@ -12,9 +12,8 @@ import css from './EditListingClassURLForm.module.css';
 
 const EditListingClassURLFormComponent = props => {
   const { initialValues } = props;
-  const [numberOfURL, setNumberofURL] = useState(Object.keys(initialValues).length ? Object.keys(initialValues).length : 1);
+  const [numberOfURL, setNumberofURL] = useState(Object.keys(initialValues).length || 1);
   const [urls, setURLS] = useState(initialValues);
-  const urlInputContainerRef = useRef(null);
 
   return (
     <FinalForm
@@ -95,7 +94,7 @@ const EditListingClassURLFormComponent = props => {
             {errorMessageUpdateListing}
             {errorMessageShowListing}
 
-            <div className={css.urlInputContainer} ref={urlInputContainerRef}>
+            <div className={css.urlInputContainer}>
               {renderURLFields()}
             </div>
 
