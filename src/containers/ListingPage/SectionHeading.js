@@ -1,15 +1,11 @@
 import React from 'react';
 import { FormattedMessage } from '../../util/reactIntl';
 import { InlineTextButton } from '../../components';
-import { LINE_ITEM_NIGHT, LINE_ITEM_DAY, LINE_ITEM_HOUR } from '../../util/types';
-import config from '../../config';
 
 import css from './ListingPage.module.css';
 
 const SectionHeading = props => {
   const {
-    priceTitle,
-    formattedPrice,
     richTitle,
     category,
     hostLink,
@@ -17,29 +13,8 @@ const SectionHeading = props => {
     onContactUser,
   } = props;
 
-  const unitType = config.bookingUnitType;
-  const isNightly = unitType === LINE_ITEM_NIGHT;
-  const isDaily = unitType === LINE_ITEM_DAY;
-  const isHourly = unitType === LINE_ITEM_HOUR;
-
-  const unitTranslationKey = isHourly
-    ? 'ListingPage.perHour'
-    : isNightly
-      ? 'ListingPage.perNight'
-      : isDaily
-        ? 'ListingPage.perDay'
-        : 'ListingPage.perUnit';
-
   return (
     <div className={css.sectionHeading}>
-      <div className={css.desktopPriceContainer}>
-        <div className={css.desktopPriceValue} title={priceTitle}>
-          {formattedPrice}
-        </div>
-        <div className={css.desktopPerUnit}>
-          <FormattedMessage id={unitTranslationKey} />
-        </div>
-      </div>
       <div className={css.heading}>
         <h1 className={css.title}>{richTitle}</h1>
         <div className={css.author}>
