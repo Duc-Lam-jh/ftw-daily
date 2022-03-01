@@ -145,7 +145,7 @@ export const filters = [
   },
   {
     id: 'classLevelType',
-    label: 'classLevelType',
+    label: 'Class level type',
     type: 'SelectSingleFilter',
     group: 'secondary',
     queryParamNames: ['pub_classLevelType'],
@@ -158,7 +158,7 @@ export const filters = [
   },
   {
     id: 'classLevel',
-    label: 'classLevel',
+    label: 'Class Level',
     type: 'SelectSingleFilter',
     group: 'secondary',
     queryParamNames: ['pub_classLevel'],

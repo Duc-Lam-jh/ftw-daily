@@ -53,6 +53,7 @@ import SectionHostMaybe from './SectionHostMaybe';
 import SectionRulesMaybe from './SectionRulesMaybe';
 import SectionMapMaybe from './SectionMapMaybe';
 import css from './ListingPage.module.css';
+import SectionSubjectLevel from './SectionSubjectLevel';
 
 const MIN_LENGTH_FOR_LONG_WORDS_IN_TITLE = 16;
 
@@ -331,7 +332,7 @@ export class ListingPageComponent extends Component {
     // banned or deleted display names for the function
     const authorDisplayName = userDisplayNameAsString(ensuredAuthor, '');
 
-    const { formattedPrice, priceTitle } = priceData(price, intl);
+    const { formattedPrice } = priceData(price, intl);
 
     const handleBookingSubmit = values => {
       const isCurrentlyClosed = currentListing.attributes.state === LISTING_STATE_CLOSED;
@@ -377,7 +378,7 @@ export class ListingPageComponent extends Component {
       </NamedLink>
     );
 
-    const amenityOptions = findOptionsForSelectFilter('amenities', filterConfig);
+    const levelOptions = findOptionsForSelectFilter('classLevel', filterConfig);
     const categoryOptions = findOptionsForSelectFilter('category', filterConfig);
     const category =
       publicData && publicData.category ? (
@@ -434,6 +435,7 @@ export class ListingPageComponent extends Component {
                     onContactUser={this.onContactUser}
                   />
                   <SectionDescriptionMaybe description={description} />
+                  <SectionSubjectLevel options={levelOptions} publicData={publicData} />
                   <SectionReviews reviews={reviews} fetchReviewsError={fetchReviewsError} />
                   <SectionHostMaybe
                     title={title}
