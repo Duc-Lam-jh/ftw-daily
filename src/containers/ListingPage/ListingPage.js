@@ -84,7 +84,8 @@ export class ListingPageComponent extends Component {
     const { enquiryModalOpenForListingId, params } = props;
     this.state = {
       pageClassNames: [],
-      imageCarouselOpen: false,
+      mainImageCarouselOpen: false,
+      subImageCarouselOpen: false,
       enquiryModalOpen: enquiryModalOpenForListingId === params.id,
     };
 
@@ -311,14 +312,24 @@ export class ListingPageComponent extends Component {
       );
     }
 
-    const handleViewPhotosClick = e => {
+    const handleViewMainImageClick = e => {
       // Stop event from bubbling up to prevent image click handler
       // trying to open the carousel as well.
       e.stopPropagation();
       this.setState({
-        imageCarouselOpen: true,
+        mainImageCarouselOpen: true,
       });
     };
+
+    const handleViewSubImagesClick = e => {
+      // Stop event from bubbling up to prevent image click handler
+      // trying to open the carousel as well.
+      e.stopPropagation();
+      this.setState({
+        subImageCarouselOpen: true,
+      });
+    };
+
     const authorAvailable = currentListing && currentListing.author;
     const userAndListingAuthorAvailable = !!(currentUser && authorAvailable);
     const isOwnListing =
@@ -420,9 +431,9 @@ export class ListingPageComponent extends Component {
                   type: listingType,
                   tab: listingTab,
                 }}
-                imageCarouselOpen={this.state.imageCarouselOpen}
-                onImageCarouselClose={() => this.setState({ imageCarouselOpen: false })}
-                handleViewPhotosClick={handleViewPhotosClick}
+                imageCarouselOpen={this.state.mainImageCarouselOpen}
+                onImageCarouselClose={() => this.setState({ mainImageCarouselOpen: false })}
+                handleViewPhotosClick={handleViewMainImageClick}
                 onManageDisableScrolling={onManageDisableScrolling}
               />
               <div className={css.contentContainer}>
@@ -440,9 +451,9 @@ export class ListingPageComponent extends Component {
                   <SectionSubImages
                     title={title}
                     listing={currentListing}
-                    imageCarouselOpen={this.state.imageCarouselOpen}
-                    onImageCarouselClose={() => this.setState({ imageCarouselOpen: false })}
-                    handleViewPhotosClick={handleViewPhotosClick}
+                    imageCarouselOpen={this.state.subImageCarouselOpen}
+                    onImageCarouselClose={() => this.setState({ subImageCarouselOpen: false })}
+                    handleViewPhotosClick={handleViewSubImagesClick}
                     onManageDisableScrolling={onManageDisableScrolling} />
                   <SectionReviews reviews={reviews} fetchReviewsError={fetchReviewsError} />
                   <SectionHostMaybe
