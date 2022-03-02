@@ -55,6 +55,7 @@ import SectionRulesMaybe from './SectionRulesMaybe';
 import SectionMapMaybe from './SectionMapMaybe';
 import css from './ListingPage.module.css';
 import SectionSubjectLevel from './SectionSubjectLevel';
+import SectionRecommendListingsMaybe from './SectionRecommendListingsMaybe';
 
 const MIN_LENGTH_FOR_LONG_WORDS_IN_TITLE = 16;
 
@@ -183,6 +184,7 @@ export class ListingPageComponent extends Component {
       currentUser,
       getListing,
       getOwnListing,
+      getRecommendedListings,
       intl,
       onManageDisableScrolling,
       params: rawParams,
@@ -209,6 +211,8 @@ export class ListingPageComponent extends Component {
       isPendingApprovalVariant || isDraftVariant
         ? ensureOwnListing(getOwnListing(listingId))
         : ensureListing(getListing(listingId));
+
+    const recommendedListings = getRecommendedListings(listingId);
 
     const listingSlug = rawParams.slug || createSlug(currentListing.attributes.title || '');
     const params = { slug: listingSlug, ...rawParams };
@@ -456,6 +460,7 @@ export class ListingPageComponent extends Component {
                     handleViewPhotosClick={handleViewSubImagesClick}
                     onManageDisableScrolling={onManageDisableScrolling} />
                   <SectionReviews reviews={reviews} fetchReviewsError={fetchReviewsError} />
+                  <SectionRecommendListingsMaybe recommendedListings={recommendedListings} />
                   <SectionHostMaybe
                     title={title}
                     listing={currentListing}
@@ -571,6 +576,7 @@ const mapStateToProps = state => {
     fetchLineItemsInProgress,
     fetchLineItemsError,
     enquiryModalOpenForListingId,
+    userListingRefs,
   } = state.ListingPage;
   const { currentUser } = state.user;
 
@@ -586,11 +592,18 @@ const mapStateToProps = state => {
     return listings.length === 1 ? listings[0] : null;
   };
 
+  const listingsOfUser = getMarketplaceEntities(state, userListingRefs);
+  const getRecommendedListings = id => {
+    return listingsOfUser.filter(l => l.id.uuid !== id.uuid);
+  }
+  
+
   return {
     isAuthenticated,
     currentUser,
     getListing,
     getOwnListing,
+    getRecommendedListings,
     scrollingDisabled: isScrollingDisabled(state),
     enquiryModalOpenForListingId,
     showListingError,

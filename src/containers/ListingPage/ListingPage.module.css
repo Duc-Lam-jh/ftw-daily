@@ -26,6 +26,13 @@
 
 .sectionSubImages{
   position: relative;
+  padding: 0 24px;
+  margin-bottom: 35px;
+
+  @media (--viewportMedium) {
+    padding: 0;
+    margin-bottom: 36px;
+  }
 }
 
 .imagesTitle {
@@ -558,13 +565,13 @@
 
 .sectionReviews {
   padding: 0 24px;
-  margin-bottom: 5px;
+  margin-bottom: 35px;
 
   @media (--viewportMedium) {
     padding: 0;
   }
   @media (--viewportLarge) {
-    margin-bottom: 3px;
+    margin-bottom: 36px;
   }
 }
 
