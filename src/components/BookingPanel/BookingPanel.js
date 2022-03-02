@@ -124,7 +124,7 @@ const BookingPanel = props => {
 
         <div className={css.priceContainerForDesktop}>
           <div className={css.priceValue} title={priceTitle}>
-            <FormattedMessage id='BookingPanel.priceTitleOnDesktop' values={{ price: formattedPrice }} />
+            {formattedPrice}
           </div>
           <div className={css.perUnit}>
             <FormattedMessage id={unitTranslationKey} />
