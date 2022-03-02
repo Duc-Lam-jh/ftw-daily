@@ -22,6 +22,7 @@ export const SET_INITIAL_VALUES = 'app/ListingPage/SET_INITIAL_VALUES';
 
 export const SHOW_LISTING_REQUEST = 'app/ListingPage/SHOW_LISTING_REQUEST';
 export const SHOW_LISTING_ERROR = 'app/ListingPage/SHOW_LISTING_ERROR';
+export const QUERY_LISTINGS_SUCCESS = 'app/ListingPage/QUERY_LISTINGS_SUCCESS';
 
 export const FETCH_REVIEWS_REQUEST = 'app/ListingPage/FETCH_REVIEWS_REQUEST';
 export const FETCH_REVIEWS_SUCCESS = 'app/ListingPage/FETCH_REVIEWS_SUCCESS';
@@ -39,6 +40,8 @@ export const SEND_ENQUIRY_REQUEST = 'app/ListingPage/SEND_ENQUIRY_REQUEST';
 export const SEND_ENQUIRY_SUCCESS = 'app/ListingPage/SEND_ENQUIRY_SUCCESS';
 export const SEND_ENQUIRY_ERROR = 'app/ListingPage/SEND_ENQUIRY_ERROR';
 
+const LIMIT_ITEM_PER_PAGE = 4;
+
 // ================ Reducer ================ //
 
 const initialState = {
@@ -54,6 +57,7 @@ const initialState = {
   sendEnquiryInProgress: false,
   sendEnquiryError: null,
   enquiryModalOpenForListingId: null,
+  userListingRefs: [],
 };
 
 const listingPageReducer = (state = initialState, action = {}) => {
@@ -66,6 +70,8 @@ const listingPageReducer = (state = initialState, action = {}) => {
       return { ...state, id: payload.id, showListingError: null };
     case SHOW_LISTING_ERROR:
       return { ...state, showListingError: payload };
+    case QUERY_LISTINGS_SUCCESS:
+      return { ...state, userListingRefs: payload.listingRefs };
 
     case FETCH_REVIEWS_REQUEST:
       return { ...state, fetchReviewsError: null };
@@ -112,6 +118,11 @@ export const setInitialValues = initialValues => ({
 export const showListingRequest = id => ({
   type: SHOW_LISTING_REQUEST,
   payload: { id },
+});
+
+export const queryListingsSuccess = listingRefs => ({
+  type: QUERY_LISTINGS_SUCCESS,
+  payload: { listingRefs },
 });
 
 export const showListingError = e => ({
@@ -189,6 +200,7 @@ export const showListing = (listingId, isOwn = false) => (dispatch, getState, sd
 
   return show
     .then(data => {
+      dispatch(queryListingsOfUser(data));
       dispatch(addMarketplaceEntities(data));
       return data;
     })
@@ -196,6 +208,32 @@ export const showListing = (listingId, isOwn = false) => (dispatch, getState, sd
       dispatch(showListingError(storableError(e)));
     });
 };
+
+export const queryListingsOfUser = (sdkResponse) => (dispatch, getState, sdk) => {
+  const apiResponse = sdkResponse.data;
+  const authorData = apiResponse.data.relationships.author;
+  const authorUUID = authorData.data.id.uuid;
+
+  const show = sdk.listings.query({
+    authorId: authorUUID,
+    page: 1,
+    perPage: LIMIT_ITEM_PER_PAGE,
+    include: ['author', 'images'],
+      'fields.image': ['variants.landscape-crop', 'variants.landscape-crop2x'],
+  })
+
+  return show
+  .then(data => {
+    // Pick only the id and type properties from the response listings
+    const listingRefs = data.data.data.map(({ id, type }) => ({ id, type }));
+    dispatch(addMarketplaceEntities(data));
+    dispatch(queryListingsSuccess(listingRefs));
+    return data;
+  }) 
+  .catch(e => {
+    dispatch(showListingError(storableError(e)));
+  });
+}
 
 export const fetchReviews = listingId => (dispatch, getState, sdk) => {
   dispatch(fetchReviewsRequest());
