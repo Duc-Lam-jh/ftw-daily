@@ -56,6 +56,7 @@ import SectionMapMaybe from './SectionMapMaybe';
 import css from './ListingPage.module.css';
 import SectionSubjectLevel from './SectionSubjectLevel';
 import SectionRecommendListingsMaybe from './SectionRecommendListingsMaybe';
+import SectionPaymentMethodMaybe from './SectionPaymentMethodMaybe';
 
 const MIN_LENGTH_FOR_LONG_WORDS_IN_TITLE = 16;
 
@@ -395,6 +396,7 @@ export class ListingPageComponent extends Component {
     );
 
     const levelOptions = findOptionsForSelectFilter('classLevel', filterConfig);
+    const paymentTypeOptions = findOptionsForSelectFilter('paymentType', filterConfig);
     const categoryOptions = findOptionsForSelectFilter('category', filterConfig);
     const category =
       publicData && publicData.category ? (
@@ -459,6 +461,7 @@ export class ListingPageComponent extends Component {
                     onImageCarouselClose={() => this.setState({ subImageCarouselOpen: false })}
                     handleViewPhotosClick={handleViewSubImagesClick}
                     onManageDisableScrolling={onManageDisableScrolling} />
+                    <SectionPaymentMethodMaybe options={paymentTypeOptions} publicData={publicData} />
                   <SectionReviews reviews={reviews} fetchReviewsError={fetchReviewsError} />
                   <SectionRecommendListingsMaybe recommendedListings={recommendedListings} />
                   <SectionHostMaybe
