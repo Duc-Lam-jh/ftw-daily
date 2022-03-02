@@ -7,7 +7,7 @@ import { EditListingPhotosForm } from '../../forms';
 import { ensureOwnListing } from '../../util/data';
 import { ListingLink } from '../../components';
 
-import css from './EditListingPhotosPanel.module.css';
+import css from './EditListingPhotosPanel.module.css'; 
 
 class EditListingPhotosPanel extends Component {
   render() {
@@ -18,8 +18,10 @@ class EditListingPhotosPanel extends Component {
       disabled,
       ready,
       images,
+      mainImage,
       listing,
       onImageUpload,
+      onMainImageUpload,
       onUpdateImageOrder,
       submitButtonText,
       panelUpdated,
@@ -27,6 +29,7 @@ class EditListingPhotosPanel extends Component {
       onChange,
       onSubmit,
       onRemoveImage,
+      onRemoveMainImage,
     } = this.props;
 
     const rootClass = rootClassName || css.root;
@@ -52,9 +55,11 @@ class EditListingPhotosPanel extends Component {
           disabled={disabled}
           ready={ready}
           fetchErrors={errors}
-          initialValues={{ images }}
+          initialValues={{ images, mainImage }}
           images={images}
+          mainImage={mainImage}
           onImageUpload={onImageUpload}
+          onMainImageUpload={onMainImageUpload}
           onSubmit={values => {
             const { addImage, ...updateValues } = values;
             onSubmit(updateValues);
@@ -62,6 +67,7 @@ class EditListingPhotosPanel extends Component {
           onChange={onChange}
           onUpdateImageOrder={onUpdateImageOrder}
           onRemoveImage={onRemoveImage}
+          onRemoveMainImage={onRemoveMainImage}
           saveActionMsg={submitButtonText}
           updated={panelUpdated}
           updateInProgress={updateInProgress}

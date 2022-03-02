@@ -2,14 +2,21 @@
   /* Dimensions */
   width: 100%;
   height: auto;
+
+  /* Layout */
   display: flex;
   flex: 1;
   flex-direction: column;
-  flex-grow: 1;
+
+  padding-top: 1px;
 
   @media (--viewportMedium) {
     padding-top: 2px;
   }
+}
+
+.error {
+  color: var(--failColor);
 }
 
 .formMargins {
@@ -20,19 +27,18 @@
   }
 }
 
-.error {
-  color: var(--failColor);
+.subject {
+  composes: formMargins;
 }
 
-.priceInput { 
+.category {
   composes: formMargins;
-  flex-shrink: 0;
-  width: 100%;
 }
 
 .submitButton {
   margin-top: auto;
   margin-bottom: 24px;
+  flex-shrink: 0;
 
   @media (--viewportLarge) {
     display: inline-block;
