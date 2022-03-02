@@ -4,6 +4,8 @@ import { PropertyGroup } from '../../components';
 
 import css from './ListingPage.module.css';
 
+const ALL_ITEM_KEY = 'both';
+
 const SectionPaymentMethodMaybe = props => {
   const { options, publicData } = props;
   if (!publicData || !publicData.paymentType) {
@@ -12,10 +14,13 @@ const SectionPaymentMethodMaybe = props => {
 
   const selectedOptions = publicData && publicData.paymentType ? [publicData.paymentType] : [];
 
-  if (selectedOptions[0] === 'both') {
+  if (selectedOptions[0] === ALL_ITEM_KEY) {
     selectedOptions.pop();
-    selectedOptions.push('prepaid');
-    selectedOptions.push('postpaid');
+    options.forEach(item => {
+      if (item.key !== ALL_ITEM_KEY) {
+        selectedOptions.push(item.key);
+      }
+    })
   }
 
   return (
@@ -25,7 +30,7 @@ const SectionPaymentMethodMaybe = props => {
       </h2>
       <PropertyGroup
         id="ListingPage.paymentTypes"
-        options={options.filter(item => item.key !== 'both')}
+        options={options.filter(item => item.key !== ALL_ITEM_KEY)}
         selectedOptions={selectedOptions}
         twoColumns={true}
       />
