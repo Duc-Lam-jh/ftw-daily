@@ -461,7 +461,7 @@ export class ListingPageComponent extends Component {
                     onImageCarouselClose={() => this.setState({ subImageCarouselOpen: false })}
                     handleViewPhotosClick={handleViewSubImagesClick}
                     onManageDisableScrolling={onManageDisableScrolling} />
-                    <SectionPaymentMethodMaybe options={paymentTypeOptions} publicData={publicData} />
+                  <SectionPaymentMethodMaybe options={paymentTypeOptions} publicData={publicData} />
                   <SectionReviews reviews={reviews} fetchReviewsError={fetchReviewsError} />
                   <SectionRecommendListingsMaybe recommendedListings={recommendedListings} />
                   <SectionHostMaybe
