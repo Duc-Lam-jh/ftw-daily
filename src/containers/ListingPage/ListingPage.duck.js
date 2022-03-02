@@ -219,7 +219,27 @@ export const queryListingsOfUser = (sdkResponse) => (dispatch, getState, sdk) =>
     page: 1,
     perPage: LIMIT_ITEM_PER_PAGE,
     include: ['author', 'images'],
-      'fields.image': ['variants.landscape-crop', 'variants.landscape-crop2x'],
+      'fields.image': [
+        // Listing page
+        'variants.landscape-crop',
+        'variants.landscape-crop2x',
+        'variants.landscape-crop4x',
+        'variants.landscape-crop6x',
+  
+        // Social media
+        'variants.facebook',
+        'variants.twitter',
+  
+        // Image carousel
+        'variants.scaled-small',
+        'variants.scaled-medium',
+        'variants.scaled-large',
+        'variants.scaled-xlarge',
+  
+        // Avatars
+        'variants.square-small',
+        'variants.square-small2x',
+      ],
   })
 
   return show
