@@ -13,6 +13,7 @@ import { Form, IconSpinner, PrimaryButton, FieldDateInput, CustomSelectFieldMayb
 import EstimatedBreakdownMaybe from './EstimatedBreakdownMaybe';
 
 import css from './BookingStartDateAndTimeForm.module.css';
+import { findOptionsForSelectFilter } from '../../util/search';
 
 const identity = v => v;
 
@@ -111,8 +112,9 @@ export class BookingStartDateAndTimeComponent extends Component {
             lineItems,
             fetchLineItemsInProgress,
             fetchLineItemsError,
+            filterConfig,
           } = fieldRenderProps;
-          const { startDate, endDate } = values && values.bookingDates ? values.bookingDates : {};
+          const { startDate, startTime } = values;
 
           const bookingStartLabel = intl.formatMessage({
             id: 'BookingStartDateAndTimeForm.bookingStartTitle',
@@ -135,11 +137,11 @@ export class BookingStartDateAndTimeComponent extends Component {
           // If you have added new fields to the form that will affect to pricing,
           // you need to add the values to handleOnChange function
           const bookingData =
-            startDate && endDate
+            startDate && startTime
               ? {
                 unitType,
                 startDate,
-                endDate,
+                startTime,
               }
               : null;
 
@@ -183,12 +185,19 @@ export class BookingStartDateAndTimeComponent extends Component {
             submitButtonWrapperClassName || css.submitButtonWrapper
           );
 
+          const startTimeOptions = findOptionsForSelectFilter('classStartTime', filterConfig)
+          const endTimeOptions = findOptionsForSelectFilter('classEndTime', filterConfig);
+
+          const endTime = startTime ? endTimeOptions.filter(item => item.key == parseInt(startTime) + 8) : [];
+          values.endTime = startTime && parseInt(startTime) + 8;
+
           return (
             <Form onSubmit={handleSubmit} className={classes} enforcePagePreloadFor="CheckoutPage">
               {timeSlotsError}
               <FormSpy
                 subscription={{ values: true }}
                 onChange={values => {
+                  values.endTime = parseInt(values.startTime) + 8;
                   this.handleOnChange(values);
                 }}
               />
@@ -201,8 +210,6 @@ export class BookingStartDateAndTimeComponent extends Component {
                 label={bookingStartLabel}
                 format={identity}
                 placeholderText={startDatePlaceholderText}
-                onBlur={() => console.log('onBlur called from DateInput props.')}
-                onFocus={() => console.log('onFocus called from DateInput props.')}
                 timeSlots={timeSlots}
                 disabled={fetchLineItemsInProgress}
                 validate={
@@ -214,24 +221,22 @@ export class BookingStartDateAndTimeComponent extends Component {
               <div className={css.timePickerContainer}>
                 <CustomSelectFieldMaybe
                   className={css.startTimeSelect}
-                  name='startTimePicker'
-                  id='startTimePicker'
+                  name='startTime'
+                  id='startTime'
                   formName='BookingStartDateAndTimeForm'
-                  options={
-                    [
-                      { key: '6AM', label: '6AM' },
-                      { key: '7AM', label: '7AM' },
-                      { key: '8AM', label: '8AM' },
-                    ]
-                  }
+                  options={startTimeOptions}
                   intl={intl}
                 />
-                <FieldTextInput
-                  className={css.endTimePicker}
-                  name='endTimePicker'
-                  id='endTimePicker'
-                  label={<FormattedMessage id="BookingStartDateAndTimeForm.endTimePickerLabel" />}
-                  disabled
+
+                <CustomSelectFieldMaybe
+                  className={css.startTimeSelect}
+                  name='endTime'
+                  id='endTime'
+                  formName='BookingStartDateAndTimeForm'
+                  options={endTime && endTime.length ? endTime : []}
+                  intl={intl}
+                  hidePlaceholder={true}
+                  disabled={true}
                 />
               </div>
 
@@ -273,6 +278,7 @@ BookingStartDateAndTimeComponent.defaultProps = {
   timeSlots: null,
   lineItems: null,
   fetchLineItemsError: null,
+  filterConfig: config.custom.filters,
 };
 
 BookingStartDateAndTimeComponent.propTypes = {
