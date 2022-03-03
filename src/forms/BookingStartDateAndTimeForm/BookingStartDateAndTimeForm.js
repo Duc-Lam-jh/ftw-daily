@@ -9,7 +9,7 @@ import { FormattedMessage, intlShape, injectIntl } from '../../util/reactIntl';
 import { required, composeValidators, bookingDateRequired } from '../../util/validators';
 import { START_DATE, END_DATE } from '../../util/dates';
 import { propTypes } from '../../util/types';
-import { Form, IconSpinner, PrimaryButton, FieldDateInput } from '../../components';
+import { Form, IconSpinner, PrimaryButton, FieldDateInput, CustomSelectFieldMaybe, FieldTextInput } from '../../components';
 import EstimatedBreakdownMaybe from './EstimatedBreakdownMaybe';
 
 import css from './BookingStartDateAndTimeForm.module.css';
@@ -179,8 +179,6 @@ export class BookingStartDateAndTimeComponent extends Component {
             .toDate();
           const startDatePlaceholderText =
             startDatePlaceholder || intl.formatDate(today, dateFormatOptions);
-          const endDatePlaceholderText =
-            endDatePlaceholder || intl.formatDate(tomorrow, dateFormatOptions);
           const submitButtonClasses = classNames(
             submitButtonWrapperClassName || css.submitButtonWrapper
           );
@@ -209,9 +207,34 @@ export class BookingStartDateAndTimeComponent extends Component {
                 disabled={fetchLineItemsInProgress}
                 validate={
                   composeValidators(required(requiredMessage),
-                  bookingDateRequired(startDateErrorMessage))
+                    bookingDateRequired(startDateErrorMessage))
                 }
               />
+
+              <div className={css.timePickerContainer}>
+                <CustomSelectFieldMaybe
+                  className={css.startTimeSelect}
+                  name='startTimePicker'
+                  id='startTimePicker'
+                  formName='BookingStartDateAndTimeForm'
+                  options={
+                    [
+                      { key: '6AM', label: '6AM' },
+                      { key: '7AM', label: '7AM' },
+                      { key: '8AM', label: '8AM' },
+                    ]
+                  }
+                  intl={intl}
+                />
+                <FieldTextInput
+                  className={css.endTimePicker}
+                  name='endTimePicker'
+                  id='endTimePicker'
+                  label={<FormattedMessage id="BookingStartDateAndTimeForm.endTimePickerLabel" />}
+                  disabled
+                />
+              </div>
+
 
               {bookingInfoMaybe}
               {loadingSpinnerMaybe}

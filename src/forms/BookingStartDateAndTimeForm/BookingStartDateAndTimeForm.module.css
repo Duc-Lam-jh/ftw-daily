@@ -5,6 +5,20 @@
   flex-direction: column;
 }
 
+.timePickerContainer{
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 10px;
+}
+
+.startTimeSelect{
+
+}
+
+.endTimeSelect{
+  
+}
+
 .bookingDates {
   flex-shrink: 0;
   margin-bottom: 38px;
