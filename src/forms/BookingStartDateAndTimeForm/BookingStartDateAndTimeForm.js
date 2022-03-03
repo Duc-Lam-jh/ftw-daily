@@ -37,11 +37,12 @@ export class BookingStartDateAndTimeComponent extends Component {
   // focus on that input, otherwise continue with the
   // default handleSubmit function.
   handleFormSubmit(e) {
-    const { startDate, startTime, endTime } = e;
+    const { startDate, startTime } = e;
+    console.log(startDate);
     if (!startDate) {
       e.preventDefault();
       this.setState({ focusedInput: START_DATE });
-    } else if (!startTime || !endTime) {
+    } else if (!startTime) {
       e.preventDefault();
       this.setState({ focusedInput: START_TIME });
     } else {
@@ -202,7 +203,7 @@ export class BookingStartDateAndTimeComponent extends Component {
 
               <FieldDateInput
                 className={css.bookingDates}
-                name='bookingStartDate'
+                name='startDate'
                 useMobileMargins
                 id={`${formId}.bookingStartDate`}
                 label={bookingStartLabel}
