@@ -7,7 +7,7 @@ import moment from 'moment';
 import config from '../../config';
 import { FormattedMessage, intlShape, injectIntl } from '../../util/reactIntl';
 import { required, composeValidators, bookingDateRequired } from '../../util/validators';
-import { START_DATE, END_DATE } from '../../util/dates';
+import { START_DATE, START_TIME } from '../../util/dates';
 import { propTypes } from '../../util/types';
 import { Form, IconSpinner, PrimaryButton, FieldDateInput, CustomSelectFieldMaybe, FieldTextInput } from '../../components';
 import EstimatedBreakdownMaybe from './EstimatedBreakdownMaybe';
@@ -37,13 +37,13 @@ export class BookingStartDateAndTimeComponent extends Component {
   // focus on that input, otherwise continue with the
   // default handleSubmit function.
   handleFormSubmit(e) {
-    const { startDate, endDate } = e.bookingDates || {};
+    const { startDate, startTime, endTime } = e;
     if (!startDate) {
       e.preventDefault();
       this.setState({ focusedInput: START_DATE });
-    } else if (!endDate) {
+    } else if (!startTime || !endTime) {
       e.preventDefault();
-      this.setState({ focusedInput: END_DATE });
+      this.setState({ focusedInput: START_TIME });
     } else {
       this.props.onSubmit(e);
     }
@@ -54,14 +54,14 @@ export class BookingStartDateAndTimeComponent extends Component {
   // In case you add more fields to the form, make sure you add
   // the values here to the bookingData object.
   handleOnChange(formValues) {
-    const { startDate, endDate } =
-      formValues.values && formValues.values.bookingDates ? formValues.values.bookingDates : {};
+    const { startDate, startTime } = formValues.values;
+    formValues.values.endTime = startTime && parseInt(startTime) + 8;
     const listingId = this.props.listingId;
     const isOwnListing = this.props.isOwnListing;
 
-    if (startDate && endDate && !this.props.fetchLineItemsInProgress) {
+    if (startDate && startTime && !this.props.fetchLineItemsInProgress) {
       this.props.onFetchTransactionLineItems({
-        bookingData: { startDate, endDate },
+        bookingData: { startDate, startTime },
         listingId,
         isOwnListing,
       });
@@ -98,7 +98,6 @@ export class BookingStartDateAndTimeComponent extends Component {
         onSubmit={this.handleFormSubmit}
         render={fieldRenderProps => {
           const {
-            endDatePlaceholder,
             startDatePlaceholder,
             formId,
             handleSubmit,
@@ -197,7 +196,6 @@ export class BookingStartDateAndTimeComponent extends Component {
               <FormSpy
                 subscription={{ values: true }}
                 onChange={values => {
-                  values.endTime = parseInt(values.startTime) + 8;
                   this.handleOnChange(values);
                 }}
               />
@@ -226,6 +224,7 @@ export class BookingStartDateAndTimeComponent extends Component {
                   formName='BookingStartDateAndTimeForm'
                   options={startTimeOptions}
                   intl={intl}
+                  required={true}
                 />
 
                 <CustomSelectFieldMaybe
