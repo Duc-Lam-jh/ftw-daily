@@ -2,6 +2,7 @@
 @import '../../styles/propertySets.css';
 
 .root {
+  --toggleButtonTransition: 500ms;
 }
 
 .pageRoot {
@@ -51,7 +52,7 @@
 .sectionSubImages .threeToTwoWrapper {
   max-height: 500px;
   overflow: hidden;
-  transition: 300ms;
+  transition: 500ms;
   
   @media (--viewportLarge) {
     padding: 0px 36px 0 36px;
@@ -506,7 +507,7 @@
 
 .subjectAndLevel.hidden {
   max-height: 0px;
-  transition: 100ms;
+  transition: 200ms;
 }
 
 .toggleButton {
@@ -516,7 +517,7 @@
   height: 20px;
   width: 20px;
   cursor: pointer;
-  transition: var(--transitionStyleButton);
+  transition: 500ms;
 }
 
 .toggleButton.hidden {
@@ -526,8 +527,8 @@
   height: 20px;
   width: 20px;
   cursor: pointer;
-  transform: rotate(90deg);
-  transition: var(--transitionStyleButton);
+  transform: rotate(180deg);
+  transition: 500ms;
 }
 
 .toggleButton::before{
