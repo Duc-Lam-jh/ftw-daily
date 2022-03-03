@@ -5,7 +5,7 @@ import { FieldSelect } from '../index';
 import css from './CustomSelectFieldMaybe.module.css';
 
 const CustomSelectFieldMaybe = props => {
-  const { name, id, options, formName, intl } = props;
+  const { name, id, options, formName, intl, hidePlaceholder, disabled } = props;
   const label = intl.formatMessage({
     id: `${formName}.${name}Label`,
   });
@@ -24,10 +24,13 @@ const CustomSelectFieldMaybe = props => {
       id={id}
       label={label}
       validate={requiredMessage}
+      disabled={disabled}
     >
-      <option disabled value="">
-        {placeholder}
-      </option>
+      {!hidePlaceholder ?
+        <option disabled value="">
+          {placeholder}
+        </option>
+        : null}
       {options.map(c => (
         <option key={c.key} value={c.key}>
           {c.label}
