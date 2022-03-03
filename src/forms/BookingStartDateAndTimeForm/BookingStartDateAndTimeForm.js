@@ -62,7 +62,7 @@ export class BookingStartDateAndTimeComponent extends Component {
 
     if (startDate && startTime && !this.props.fetchLineItemsInProgress) {
       this.props.onFetchTransactionLineItems({
-        bookingData: { startDate, startTime },
+        bookingData: { startDate: startDate.date, endDate: startDate.date, startTime },
         listingId,
         isOwnListing,
       });
@@ -140,7 +140,8 @@ export class BookingStartDateAndTimeComponent extends Component {
             startDate && startTime
               ? {
                 unitType,
-                startDate,
+                startDate: startDate.date,
+                endDate: startDate.date,
                 startTime,
               }
               : null;
