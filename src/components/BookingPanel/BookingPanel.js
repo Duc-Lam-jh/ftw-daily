@@ -13,6 +13,7 @@ import { ModalInMobile, Button } from '../../components';
 import { BookingDatesForm } from '../../forms';
 
 import css from './BookingPanel.module.css';
+import BookingStartDateAndTimeForm from '../../forms/BookingStartDateAndTimeForm/BookingStartDateAndTimeForm';
 
 // This defines when ModalInMobile shows content as Modal
 const MODAL_BREAKPOINT = 1023;
@@ -132,7 +133,7 @@ const BookingPanel = props => {
         </div>
 
         {showBookingDatesForm ? (
-          <BookingDatesForm
+          <BookingStartDateAndTimeForm
             className={css.bookingForm}
             formId="BookingPanel"
             submitButtonWrapperClassName={css.bookingDatesSubmitButtonWrapper}
