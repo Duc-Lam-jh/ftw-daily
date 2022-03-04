@@ -179,15 +179,15 @@ export const initiateOrder = (orderParams, transactionId) => (dispatch, getState
 
   const bodyParams = isTransition
     ? {
-        id: transactionId,
-        transition,
-        params: orderParams,
-      }
+      id: transactionId,
+      transition,
+      params: orderParams,
+    }
     : {
-        processAlias: config.bookingProcessAlias,
-        transition,
-        params: orderParams,
-      };
+      processAlias: config.bookingProcessAlias,
+      transition,
+      params: orderParams,
+    };
   const queryParams = {
     include: ['booking', 'provider'],
     expand: true,
@@ -321,15 +321,15 @@ export const speculateTransaction = (orderParams, transactionId) => (dispatch, g
 
   const bodyParams = isTransition
     ? {
-        id: transactionId,
-        transition,
-        params,
-      }
+      id: transactionId,
+      transition,
+      params,
+    }
     : {
-        processAlias: config.bookingProcessAlias,
-        transition,
-        params,
-      };
+      processAlias: config.bookingProcessAlias,
+      transition,
+      params,
+    };
 
   const queryParams = {
     include: ['booking', 'provider'],
