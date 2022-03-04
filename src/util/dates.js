@@ -74,7 +74,7 @@ export const dateFromAPIToLocalNoon = date => {
 export const dateFromLocalToAPI = date => {
   const timezoneDiffInMinutes = moment(date).utcOffset();
   const momentInLocalTimezone = moment(date).add(timezoneDiffInMinutes, 'minutes');
-
+  
   return momentInLocalTimezone.toDate();
 };
 
