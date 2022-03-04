@@ -6,6 +6,7 @@ import moment from 'moment';
 export const START_DATE = 'startDate';
 export const END_DATE = 'endDate';
 export const START_TIME = 'startTime';
+export const BASE_CLASS_HOURS = 8;
 
 /**
  * Check that the given parameter is a Date object.
@@ -74,7 +75,7 @@ export const dateFromAPIToLocalNoon = date => {
 export const dateFromLocalToAPI = date => {
   const timezoneDiffInMinutes = moment(date).utcOffset();
   const momentInLocalTimezone = moment(date).add(timezoneDiffInMinutes, 'minutes');
-  
+
   return momentInLocalTimezone.toDate();
 };
 
