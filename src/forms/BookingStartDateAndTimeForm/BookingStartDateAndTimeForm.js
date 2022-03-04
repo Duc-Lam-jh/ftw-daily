@@ -40,7 +40,6 @@ export class BookingStartDateAndTimeComponent extends Component {
   // default handleSubmit function.
   handleFormSubmit(e) {
     const { startDate, startTime } = e;
-    console.log(startDate);
     if (!startDate) {
       e.preventDefault();
       this.setState({ focusedInput: START_DATE });
