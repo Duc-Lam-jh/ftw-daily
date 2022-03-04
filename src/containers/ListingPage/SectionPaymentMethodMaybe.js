@@ -1,10 +1,9 @@
 import React from 'react';
 import { FormattedMessage } from '../../util/reactIntl';
 import { PropertyGroup } from '../../components';
+import { ALL_ITEM_KEY } from '../../util/data';
 
 import css from './ListingPage.module.css';
-
-const ALL_ITEM_KEY = 'both';
 
 const SectionPaymentMethodMaybe = props => {
   const { options, publicData } = props;

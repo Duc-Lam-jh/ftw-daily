@@ -35,11 +35,11 @@ import { DATE_TYPE_DATETIME } from '../../util/types';
 import { unitDivisor, convertMoneyToNumber, convertUnitToSubUnit } from '../../util/currency';
 import config from '../../config';
 import { BookingBreakdown } from '../../components';
+import { BASE_CLASS_HOURS } from '../../util/dates';
 
 import css from './BookingStartDateAndTimeForm.module.css';
 
 const { Money, UUID } = sdkTypes;
-const BASE_CLASS_HOURS = 8;
 
 const estimatedTotalPrice = lineItems => {
   const numericTotalPrice = lineItems.reduce((sum, lineItem) => {

@@ -1,11 +1,9 @@
 import React from 'react';
 import { FormattedMessage, FormattedDate } from '../../util/reactIntl';
 import { DATE_TYPE_DATETIME, propTypes } from '../../util/types';
-import { dateFromAPIToLocalNoon } from '../../util/dates';
+import { dateFromAPIToLocalNoon, BASE_CLASS_HOURS } from '../../util/dates';
 
 import css from './BookingBreakdown.module.css';
-
-const BASE_CLASS_HOURS = 8;
 
 const BookingPeriod = props => {
   const { startDate, endDate, dateType } = props;
