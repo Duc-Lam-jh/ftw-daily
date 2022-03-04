@@ -174,6 +174,8 @@ export class CheckoutPageComponent extends Component {
       pageData.listing &&
       pageData.listing.id &&
       pageData.bookingData &&
+      pageData.bookingData.startTime &&
+      pageData.bookingData.paymentType &&
       pageData.bookingDates &&
       pageData.bookingDates.bookingStart &&
       pageData.bookingDates.bookingEnd &&
@@ -197,6 +199,8 @@ export class CheckoutPageComponent extends Component {
           listingId,
           bookingStart: bookingStartForAPI,
           bookingEnd: bookingEndForAPI,
+          startTime: bookingData.startTime,
+          paymentType: bookingData.paymentType,
         },
         transactionId
       );

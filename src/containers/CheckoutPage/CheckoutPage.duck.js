@@ -312,6 +312,8 @@ export const speculateTransaction = (orderParams, transactionId) => (dispatch, g
   const bookingData = {
     startDate: orderParams.bookingStart,
     endDate: orderParams.bookingEnd,
+    startTime: orderParams.startTime,
+    paymentType: orderParams.paymentType
   };
 
   const params = {
