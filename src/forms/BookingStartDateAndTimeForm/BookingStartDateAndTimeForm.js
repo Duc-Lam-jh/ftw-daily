@@ -64,7 +64,7 @@ export class BookingStartDateAndTimeComponent extends Component {
 
     if (startDate && startTime && paymentType && !this.props.fetchLineItemsInProgress) {
       this.props.onFetchTransactionLineItems({
-        bookingData: { startDate: startDate.date, endDate: startDate.date, startTime },
+        bookingData: { startDate: startDate.date, endDate: startDate.date, startTime, paymentType },
         listingId,
         isOwnListing,
       });
@@ -118,7 +118,7 @@ export class BookingStartDateAndTimeComponent extends Component {
             fetchLineItemsError,
             filterConfig,
           } = fieldRenderProps;
-          const { startDate, startTime } = values;
+          const { startDate, startTime, paymentType } = values;
 
           const bookingStartLabel = intl.formatMessage({
             id: 'BookingStartDateAndTimeForm.bookingStartTitle',
@@ -141,12 +141,13 @@ export class BookingStartDateAndTimeComponent extends Component {
           // If you have added new fields to the form that will affect to pricing,
           // you need to add the values to handleOnChange function
           const bookingData =
-            startDate && startTime
+            startDate && startTime && paymentType
               ? {
                 unitType,
                 startDate: startDate.date,
                 endDate: startDate.date,
                 startTime,
+                paymentType,
               }
               : null;
 
