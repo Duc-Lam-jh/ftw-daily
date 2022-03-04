@@ -7,10 +7,12 @@ import moment from 'moment';
 import config from '../../config';
 import { FormattedMessage, intlShape, injectIntl } from '../../util/reactIntl';
 import { required, composeValidators, bookingDateRequired } from '../../util/validators';
-import { START_DATE, START_TIME } from '../../util/dates';
+import { START_DATE, START_TIME, BASE_CLASS_HOURS } from '../../util/dates';
 import { propTypes } from '../../util/types';
-import { Form, IconSpinner, PrimaryButton, FieldDateInput, CustomSelectFieldMaybe, FieldTextInput } from '../../components';
+import { Form, IconSpinner, PrimaryButton, FieldDateInput, CustomSelectFieldMaybe } from '../../components';
 import EstimatedBreakdownMaybe from './EstimatedBreakdownMaybe';
+import SectionPaymentTypeSelectMaybe from './SectionPaymentTypeSelectMaybe';
+import { ALL_ITEM_KEY } from '../../util/data';
 
 import css from './BookingStartDateAndTimeForm.module.css';
 import { findOptionsForSelectFilter } from '../../util/search';
@@ -55,12 +57,12 @@ export class BookingStartDateAndTimeComponent extends Component {
   // In case you add more fields to the form, make sure you add
   // the values here to the bookingData object.
   handleOnChange(formValues) {
-    const { startDate, startTime } = formValues.values;
+    const { startDate, startTime, paymentType } = formValues.values;
     formValues.values.endTime = startTime && parseInt(startTime) + 8;
     const listingId = this.props.listingId;
     const isOwnListing = this.props.isOwnListing;
 
-    if (startDate && startTime && !this.props.fetchLineItemsInProgress) {
+    if (startDate && startTime && paymentType && !this.props.fetchLineItemsInProgress) {
       this.props.onFetchTransactionLineItems({
         bookingData: { startDate: startDate.date, endDate: startDate.date, startTime },
         listingId,
@@ -106,6 +108,8 @@ export class BookingStartDateAndTimeComponent extends Component {
             isOwnListing,
             submitButtonWrapperClassName,
             unitType,
+            paymentTypeOptions,
+            publicData,
             values,
             timeSlots,
             fetchTimeSlotsError,
@@ -188,9 +192,13 @@ export class BookingStartDateAndTimeComponent extends Component {
 
           const startTimeOptions = findOptionsForSelectFilter('classStartTime', filterConfig)
           const endTimeOptions = findOptionsForSelectFilter('classEndTime', filterConfig);
+          const endTime = startTime ? endTimeOptions.filter(item => item.key == parseInt(startTime) + BASE_CLASS_HOURS) : [];
+          values.endTime = startTime && parseInt(startTime) + BASE_CLASS_HOURS;
 
-          const endTime = startTime ? endTimeOptions.filter(item => item.key == parseInt(startTime) + 8) : [];
-          values.endTime = startTime && parseInt(startTime) + 8;
+          const paymentTypeFromPublicData = publicData && publicData.paymentType ? publicData.paymentType : null;
+          if (paymentTypeFromPublicData && paymentTypeFromPublicData !== ALL_ITEM_KEY) {
+            values.paymentType = paymentTypeFromPublicData;
+          }
 
           return (
             <Form onSubmit={handleSubmit} className={classes} enforcePagePreloadFor="CheckoutPage">
@@ -240,6 +248,13 @@ export class BookingStartDateAndTimeComponent extends Component {
                   disabled={true}
                 />
               </div>
+
+              <SectionPaymentTypeSelectMaybe
+                formName='BookingStartDateAndTimeForm'
+                options={paymentTypeOptions}
+                publicData={publicData}
+                intl={intl}
+              />
 
 
               {bookingInfoMaybe}
