@@ -31,7 +31,7 @@ import Decimal from 'decimal.js';
 import { types as sdkTypes } from '../../util/sdkLoader';
 import { dateFromLocalToAPI } from '../../util/dates';
 import { TRANSITION_REQUEST_PAYMENT, TX_TRANSITION_ACTOR_CUSTOMER } from '../../util/transaction';
-import { DATE_TYPE_DATE } from '../../util/types';
+import { DATE_TYPE_DATETIME } from '../../util/types';
 import { unitDivisor, convertMoneyToNumber, convertUnitToSubUnit } from '../../util/currency';
 import config from '../../config';
 import { BookingBreakdown } from '../../components';
@@ -39,6 +39,7 @@ import { BookingBreakdown } from '../../components';
 import css from './BookingStartDateAndTimeForm.module.css';
 
 const { Money, UUID } = sdkTypes;
+const BASE_CLASS_HOURS = 8;
 
 const estimatedTotalPrice = lineItems => {
   const numericTotalPrice = lineItems.reduce((sum, lineItem) => {
@@ -63,7 +64,7 @@ const estimatedTotalPrice = lineItems => {
 //
 // We need to use FTW backend to calculate the correct line items through thransactionLineItems
 // endpoint so that they can be passed to this estimated transaction.
-const estimatedTransaction = (bookingStart, bookingEnd, lineItems, userRole) => {
+const estimatedTransaction = (bookingStart, bookingEnd, bookingStartTime, lineItems, userRole) => {
   const now = new Date();
 
   const isCustomer = userRole === 'customer';
@@ -112,15 +113,16 @@ const estimatedTransaction = (bookingStart, bookingEnd, lineItems, userRole) => 
       id: new UUID('estimated-booking'),
       type: 'booking',
       attributes: {
+        time: bookingStartTime,
         start: serverDayStart,
-        end: serverDayEnd,
+        end: serverDayStart,
       },
     },
   };
 };
 
 const EstimatedBreakdownMaybe = props => {
-  const { unitType, startDate, endDate } = props.bookingData;
+  const { unitType, startDate, endDate, startTime } = props.bookingData;
   const lineItems = props.lineItems;
 
   // Currently the estimated breakdown is used only on ListingPage where we want to
@@ -129,7 +131,7 @@ const EstimatedBreakdownMaybe = props => {
 
   const tx =
     startDate && endDate && lineItems
-      ? estimatedTransaction(startDate, endDate, lineItems, userRole)
+      ? estimatedTransaction(startDate, endDate, startTime, lineItems, userRole)
       : null;
 
   return tx ? (
@@ -139,7 +141,7 @@ const EstimatedBreakdownMaybe = props => {
       unitType={unitType}
       transaction={tx}
       booking={tx.booking}
-      dateType={DATE_TYPE_DATE}
+      dateType={DATE_TYPE_DATETIME}
     />
   ) : null;
 };
