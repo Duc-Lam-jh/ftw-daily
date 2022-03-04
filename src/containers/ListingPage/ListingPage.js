@@ -57,6 +57,7 @@ import css from './ListingPage.module.css';
 import SectionSubjectLevel from './SectionSubjectLevel';
 import SectionRecommendListingsMaybe from './SectionRecommendListingsMaybe';
 import SectionPaymentMethodMaybe from './SectionPaymentMethodMaybe';
+import { BASE_CLASS_HOURS } from '../../util/dates';
 
 const MIN_LENGTH_FOR_LONG_WORDS_IN_TITLE = 16;
 
@@ -109,13 +110,16 @@ export class ListingPageComponent extends Component {
 
     const { startDate, startTime, ...bookingData } = values;
     bookingData.startTime = startTime;
+    const endDateAfterStartDate = new Date();
+    //API requires end date to be after start date so we add one day to the endDate
+    endDateAfterStartDate.setDate(startDate.date.getDate() + 1);
 
     const initialValues = {
       listing,
       bookingData,
       bookingDates: {
         bookingStart: startDate.date,
-        bookingEnd: startDate.date,
+        bookingEnd: endDateAfterStartDate,
       },
       confirmPaymentError: null,
     };
