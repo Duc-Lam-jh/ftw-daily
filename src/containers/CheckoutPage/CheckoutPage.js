@@ -8,7 +8,7 @@ import classNames from 'classnames';
 import config from '../../config';
 import routeConfiguration from '../../routeConfiguration';
 import { pathByRouteName, findRouteByRouteName } from '../../util/routes';
-import { propTypes, LINE_ITEM_NIGHT, LINE_ITEM_DAY, DATE_TYPE_DATE } from '../../util/types';
+import { propTypes, LINE_ITEM_NIGHT, LINE_ITEM_DAY, DATE_TYPE_DATE, DATE_TYPE_DATETIME } from '../../util/types';
 import {
   ensureListing,
   ensureCurrentUser,
@@ -586,6 +586,9 @@ export class CheckoutPageComponent extends Component {
     // (i.e. have an id)
     const tx = existingTransaction.booking ? existingTransaction : speculatedTransaction;
     const txBooking = ensureBooking(tx.booking);
+    txBooking.attributes.time = this.state.pageData.bookingData.startTime;
+    txBooking.attributes.paymentType = this.state.pageData.bookingData.paymentType;
+
     const breakdown =
       tx.id && txBooking.id ? (
         <BookingBreakdown
@@ -594,7 +597,7 @@ export class CheckoutPageComponent extends Component {
           unitType={config.bookingUnitType}
           transaction={tx}
           booking={txBooking}
-          dateType={DATE_TYPE_DATE}
+          dateType={DATE_TYPE_DATETIME}
         />
       ) : null;
 
