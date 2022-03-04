@@ -483,7 +483,6 @@ export class ListingPageComponent extends Component {
                   listing={currentListing}
                   isOwnListing={isOwnListing}
                   unitType={unitType}
-                  paymentTypeOptions={paymentTypeOptions}
                   onSubmit={handleBookingSubmit}
                   title={bookingTitle}
                   subTitle={bookingSubTitle}

@@ -55,7 +55,6 @@ const BookingPanel = props => {
     listing,
     isOwnListing,
     unitType,
-    paymentTypeOptions,
     onSubmit,
     title,
     subTitle,
@@ -139,7 +138,6 @@ const BookingPanel = props => {
             formId="BookingPanel"
             submitButtonWrapperClassName={css.bookingDatesSubmitButtonWrapper}
             unitType={unitType}
-            paymentTypeOptions={paymentTypeOptions}
             publicData={publicData}
             onSubmit={onSubmit}
             price={price}

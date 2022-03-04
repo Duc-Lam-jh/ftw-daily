@@ -108,7 +108,6 @@ export class BookingStartDateAndTimeComponent extends Component {
             isOwnListing,
             submitButtonWrapperClassName,
             unitType,
-            paymentTypeOptions,
             publicData,
             values,
             timeSlots,
@@ -193,6 +192,8 @@ export class BookingStartDateAndTimeComponent extends Component {
 
           const startTimeOptions = findOptionsForSelectFilter('classStartTime', filterConfig)
           const endTimeOptions = findOptionsForSelectFilter('classEndTime', filterConfig);
+          const paymentTypeOptions = findOptionsForSelectFilter('paymentType', filterConfig);
+
           const endTime = startTime ? endTimeOptions.filter(item => item.key == parseInt(startTime) + BASE_CLASS_HOURS) : [];
           values.endTime = startTime && parseInt(startTime) + BASE_CLASS_HOURS;
 
