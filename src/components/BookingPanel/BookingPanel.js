@@ -55,6 +55,7 @@ const BookingPanel = props => {
     listing,
     isOwnListing,
     unitType,
+    paymentTypeOptions,
     onSubmit,
     title,
     subTitle,
@@ -99,6 +100,7 @@ const BookingPanel = props => {
 
   const classes = classNames(rootClassName || css.root, className);
   const titleClasses = classNames(titleClassName || css.bookingTitle);
+  const { publicData } = listing.attributes;
 
   return (
     <div className={classes}>
@@ -137,6 +139,8 @@ const BookingPanel = props => {
             formId="BookingPanel"
             submitButtonWrapperClassName={css.bookingDatesSubmitButtonWrapper}
             unitType={unitType}
+            paymentTypeOptions={paymentTypeOptions}
+            publicData={publicData}
             onSubmit={onSubmit}
             price={price}
             listingId={listing.id}

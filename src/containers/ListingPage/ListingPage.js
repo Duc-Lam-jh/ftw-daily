@@ -483,6 +483,7 @@ export class ListingPageComponent extends Component {
                   listing={currentListing}
                   isOwnListing={isOwnListing}
                   unitType={unitType}
+                  paymentTypeOptions={paymentTypeOptions}
                   onSubmit={handleBookingSubmit}
                   title={bookingTitle}
                   subTitle={bookingSubTitle}
@@ -599,7 +600,7 @@ const mapStateToProps = state => {
   const getRecommendedListings = id => {
     return listingsOfUser.filter(l => l.id.uuid !== id.uuid);
   }
-  
+
 
   return {
     isAuthenticated,
