@@ -588,6 +588,8 @@ export class CheckoutPageComponent extends Component {
     const txBooking = ensureBooking(tx.booking);
     txBooking.attributes.time = this.state.pageData.bookingData.startTime;
     txBooking.attributes.paymentType = this.state.pageData.bookingData.paymentType;
+    //minus 1 day from end day from API to retrn to the original date
+    txBooking.attributes.displayEnd.setDate(txBooking.attributes.displayEnd.getDate() - 1);
 
     const breakdown =
       tx.id && txBooking.id ? (
