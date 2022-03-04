@@ -35,7 +35,6 @@ import { DATE_TYPE_DATETIME } from '../../util/types';
 import { unitDivisor, convertMoneyToNumber, convertUnitToSubUnit } from '../../util/currency';
 import config from '../../config';
 import { BookingBreakdown } from '../../components';
-import { BASE_CLASS_HOURS } from '../../util/dates';
 
 import css from './BookingStartDateAndTimeForm.module.css';
 
@@ -64,7 +63,7 @@ const estimatedTotalPrice = lineItems => {
 //
 // We need to use FTW backend to calculate the correct line items through thransactionLineItems
 // endpoint so that they can be passed to this estimated transaction.
-const estimatedTransaction = (bookingStart, bookingEnd, bookingStartTime, lineItems, userRole) => {
+const estimatedTransaction = (bookingStart, bookingEnd, bookingStartTime, bookingPaymentType, lineItems, userRole) => {
   const now = new Date();
 
   const isCustomer = userRole === 'customer';
@@ -116,13 +115,14 @@ const estimatedTransaction = (bookingStart, bookingEnd, bookingStartTime, lineIt
         time: bookingStartTime,
         start: serverDayStart,
         end: serverDayStart,
+        paymentType: bookingPaymentType,
       },
     },
   };
 };
 
 const EstimatedBreakdownMaybe = props => {
-  const { unitType, startDate, endDate, startTime } = props.bookingData;
+  const { unitType, startDate, endDate, startTime, paymentType } = props.bookingData;
   const lineItems = props.lineItems;
 
   // Currently the estimated breakdown is used only on ListingPage where we want to
@@ -131,7 +131,7 @@ const EstimatedBreakdownMaybe = props => {
 
   const tx =
     startDate && endDate && lineItems
-      ? estimatedTransaction(startDate, endDate, startTime, lineItems, userRole)
+      ? estimatedTransaction(startDate, endDate, startTime, paymentType, lineItems, userRole)
       : null;
 
   return tx ? (
