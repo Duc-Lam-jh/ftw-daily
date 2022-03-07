@@ -2,6 +2,7 @@
 @import '../../styles/propertySets.css';
 
 .root {
+  --toggleButtonTransition: 500ms;
 }
 
 .pageRoot {
@@ -22,6 +23,44 @@
 }
 
 .sectionImages {
+}
+
+.sectionSubImages{
+  position: relative;
+  padding: 0 24px;
+  margin-bottom: 35px;
+
+  @media (--viewportMedium) {
+    padding: 0;
+    margin-bottom: 36px;
+  }
+}
+
+.imagesTitle {
+  /* Font */
+  @apply --marketplaceH3FontStyles;
+  color: var(--matterColorAnti);
+
+  margin-top: 0;
+  margin-bottom: 16px;
+  @media (--viewportMedium) {
+    margin-top: 0;
+    margin-bottom: 12px;
+  }
+}
+
+.sectionSubImages .threeToTwoWrapper {
+  max-height: 500px;
+  overflow: hidden;
+  transition: 500ms;
+  
+  @media (--viewportLarge) {
+    padding: 0px 36px 0 36px;
+  }
+}
+
+.sectionSubImages .threeToTwoWrapper.hidden {
+  max-height: 0px;
 }
 
 .threeToTwoWrapper {
@@ -412,17 +451,41 @@
   }
 }
 
-.sectionFeatures {
+.sectionPaymentType {
   padding: 0 24px;
-  margin-bottom: 32px;
+  margin-bottom: 35px;
 
   @media (--viewportMedium) {
     padding: 0;
-    margin-bottom: 52px;
+    margin-bottom: 36px;
   }
 }
 
-.featuresTitle {
+.paymentTypeTitle {
+  /* Font */
+  @apply --marketplaceH3FontStyles;
+  color: var(--matterColorAnti);
+
+  margin-top: 0;
+  margin-bottom: 13px;
+  @media (--viewportMedium) {
+    margin-top: 0;
+    margin-bottom: 12px;
+  }
+}
+
+.sectionSubject {
+  position: relative;
+  padding: 0 24px;
+  margin-bottom: 35px;
+
+  @media (--viewportMedium) {
+    padding: 0;
+    margin-bottom: 36px;
+  }
+}
+
+.subjectTitle {
   /* Font */
   @apply --marketplaceH3FontStyles;
   color: var(--matterColorAnti);
@@ -433,6 +496,59 @@
     margin-top: 0;
     margin-bottom: 12px;
   }
+}
+
+.subjectAndLevel{
+  max-height: 500px;
+  height: auto;
+  overflow: hidden;
+  transition: 300ms;
+}
+
+.subjectAndLevel.hidden {
+  max-height: 0px;
+  transition: 200ms;
+}
+
+.toggleButton {
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  height: 20px;
+  width: 20px;
+  cursor: pointer;
+  transition: 500ms;
+}
+
+.toggleButton.hidden {
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  height: 20px;
+  width: 20px;
+  cursor: pointer;
+  transform: rotate(180deg);
+  transition: 500ms;
+}
+
+.toggleButton::before{
+  content: ' ';
+  position: absolute;
+  display: block;
+  right: 5.5px;
+  border-left: 2px solid var(--marketplaceColor);
+  transform: rotate(45deg);
+  height: 15px;
+}
+
+.toggleButton::after{
+  content: '';
+  position: absolute;
+  display: block;
+  right: 15px;
+  border-right: 2px solid var(--marketplaceColor);
+  transform: rotate(-45deg);
+  height: 15px;
 }
 
 .description {
@@ -473,13 +589,13 @@
 
 .sectionReviews {
   padding: 0 24px;
-  margin-bottom: 5px;
+  margin-bottom: 35px;
 
   @media (--viewportMedium) {
     padding: 0;
   }
   @media (--viewportLarge) {
-    margin-bottom: 3px;
+    margin-bottom: 36px;
   }
 }
 

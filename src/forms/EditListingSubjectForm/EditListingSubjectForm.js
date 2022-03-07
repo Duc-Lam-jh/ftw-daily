@@ -79,6 +79,7 @@ const EditListingSubjectFormComponent = props => (
             options={typeOfLevels}
             formName='EditListingSubjectForm'
             intl={intl}
+            required={true}
           />
 
           {levelType ?
@@ -88,6 +89,7 @@ const EditListingSubjectFormComponent = props => (
               options={classLevels.filter(item => item.type === levelType)}
               formName='EditListingSubjectForm'
               intl={intl}
+              required={true}
             />
             : null
           }

@@ -1,0 +1,30 @@
+@import '../../styles/propertySets.css';
+
+.formMargins {
+	margin-bottom: 24px;
+
+	@media (--viewportMedium) {
+		margin-bottom: 32px;
+	}
+}
+
+.selectField {
+	composes: formMargins;
+	margin: 0 24px 20px 24px;
+
+	@media (--viewportMedium) {
+		margin: 0 0px 20px 0px;
+	}
+}
+
+.paymentType {
+	/* Font */
+	@apply --marketplaceH4FontStyles;
+	color: var(--matterColor);
+
+	margin: 0 24px 20px 24px;
+
+	@media (--viewportMedium) {
+		margin: 0 0px 20px 0px;
+	}
+}

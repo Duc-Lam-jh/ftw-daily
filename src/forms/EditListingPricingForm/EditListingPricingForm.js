@@ -110,6 +110,7 @@ export const EditListingPricingFormComponent = props => (
             options={paymentTypes}
             formName='EditListingPricingForm'
             intl={intl}
+            required={true}
           />
 
           <Button

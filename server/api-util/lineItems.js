@@ -4,8 +4,9 @@ const { Money } = types;
 
 // This bookingUnitType needs to be one of the following:
 // line-item/night, line-item/day or line-item/units
-const bookingUnitType = 'line-item/night';
+const bookingUnitType = 'line-item/hour';
 const PROVIDER_COMMISSION_PERCENTAGE = -10;
+const BASE_CLASS_HOURS = 8;
 
 /** Returns collection of lineItems (max 50)
  *
@@ -29,7 +30,7 @@ const PROVIDER_COMMISSION_PERCENTAGE = -10;
  */
 exports.transactionLineItems = (listing, bookingData) => {
   const unitPrice = listing.attributes.price;
-  const { startDate, endDate } = bookingData;
+  const { startDate, endDate, startTime } = bookingData;
 
   /**
    * If you want to use pre-defined component and translations for printing the lineItems base price for booking,
@@ -44,7 +45,7 @@ exports.transactionLineItems = (listing, bookingData) => {
   const booking = {
     code: bookingUnitType,
     unitPrice,
-    quantity: calculateQuantityFromDates(startDate, endDate, bookingUnitType),
+    quantity: startTime ? BASE_CLASS_HOURS : calculateQuantityFromDates(startDate, endDate, bookingUnitType),
     includeFor: ['customer', 'provider'],
   };
 

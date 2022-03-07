@@ -8,7 +8,7 @@ import classNames from 'classnames';
 import config from '../../config';
 import routeConfiguration from '../../routeConfiguration';
 import { pathByRouteName, findRouteByRouteName } from '../../util/routes';
-import { propTypes, LINE_ITEM_NIGHT, LINE_ITEM_DAY, DATE_TYPE_DATE } from '../../util/types';
+import { propTypes, LINE_ITEM_NIGHT, LINE_ITEM_DAY, DATE_TYPE_DATE, DATE_TYPE_DATETIME } from '../../util/types';
 import {
   ensureListing,
   ensureCurrentUser,
@@ -73,8 +73,8 @@ const paymentFlow = (selectedPaymentMethod, saveAfterOnetimePayment) => {
   return selectedPaymentMethod === 'defaultCard'
     ? USE_SAVED_CARD
     : saveAfterOnetimePayment
-    ? PAY_AND_SAVE_FOR_LATER_USE
-    : ONETIME_PAYMENT;
+      ? PAY_AND_SAVE_FOR_LATER_USE
+      : ONETIME_PAYMENT;
 };
 
 const initializeOrderPage = (initialValues, routes, dispatch) => {
@@ -89,8 +89,8 @@ const checkIsPaymentExpired = existingTransaction => {
   return txIsPaymentExpired(existingTransaction)
     ? true
     : txIsPaymentPending(existingTransaction)
-    ? minutesBetween(existingTransaction.attributes.lastTransitionedAt, new Date()) >= 15
-    : false;
+      ? minutesBetween(existingTransaction.attributes.lastTransitionedAt, new Date()) >= 15
+      : false;
 };
 
 export class CheckoutPageComponent extends Component {
@@ -174,6 +174,8 @@ export class CheckoutPageComponent extends Component {
       pageData.listing &&
       pageData.listing.id &&
       pageData.bookingData &&
+      pageData.bookingData.startTime &&
+      pageData.bookingData.paymentType &&
       pageData.bookingDates &&
       pageData.bookingDates.bookingStart &&
       pageData.bookingDates.bookingEnd &&
@@ -197,6 +199,8 @@ export class CheckoutPageComponent extends Component {
           listingId,
           bookingStart: bookingStartForAPI,
           bookingEnd: bookingEndForAPI,
+          startTime: bookingData.startTime,
+          paymentType: bookingData.paymentType,
         },
         transactionId
       );
@@ -287,11 +291,11 @@ export class CheckoutPageComponent extends Component {
       const paymentParams =
         selectedPaymentFlow !== USE_SAVED_CARD
           ? {
-              payment_method: {
-                billing_details: billingDetails,
-                card: card,
-              },
-            }
+            payment_method: {
+              billing_details: billingDetails,
+              card: card,
+            },
+          }
           : { payment_method: stripePaymentMethodId };
 
       const params = {
@@ -371,8 +375,8 @@ export class CheckoutPageComponent extends Component {
       selectedPaymentFlow === USE_SAVED_CARD && hasDefaultPaymentMethod
         ? { paymentMethod: stripePaymentMethodId }
         : selectedPaymentFlow === PAY_AND_SAVE_FOR_LATER_USE
-        ? { setupPaymentMethodForSaving: true }
-        : {};
+          ? { setupPaymentMethodForSaving: true }
+          : {};
 
     const orderParams = {
       listingId: pageData.listing.id,
@@ -410,15 +414,15 @@ export class CheckoutPageComponent extends Component {
     const addressMaybe =
       addressLine1 && postal
         ? {
-            address: {
-              city: city,
-              country: country,
-              line1: addressLine1,
-              line2: addressLine2,
-              postal_code: postal,
-              state: state,
-            },
-          }
+          address: {
+            city: city,
+            country: country,
+            line1: addressLine1,
+            line2: addressLine2,
+            postal_code: postal,
+            state: state,
+          },
+        }
         : {};
     const billingDetails = {
       name,
@@ -582,6 +586,11 @@ export class CheckoutPageComponent extends Component {
     // (i.e. have an id)
     const tx = existingTransaction.booking ? existingTransaction : speculatedTransaction;
     const txBooking = ensureBooking(tx.booking);
+    txBooking.attributes.time = this.state.pageData.bookingData.startTime;
+    txBooking.attributes.paymentType = this.state.pageData.bookingData.paymentType;
+    //minus 1 day from end day from API to retrn to the original date
+    txBooking.attributes.displayEnd.setDate(txBooking.attributes.displayEnd.getDate() - 1);
+
     const breakdown =
       tx.id && txBooking.id ? (
         <BookingBreakdown
@@ -590,7 +599,7 @@ export class CheckoutPageComponent extends Component {
           unitType={config.bookingUnitType}
           transaction={tx}
           booking={txBooking}
-          dateType={DATE_TYPE_DATE}
+          dateType={DATE_TYPE_DATETIME}
         />
       ) : null;
 
@@ -720,8 +729,8 @@ export class CheckoutPageComponent extends Component {
     const unitTranslationKey = isNightly
       ? 'CheckoutPage.perNight'
       : isDaily
-      ? 'CheckoutPage.perDay'
-      : 'CheckoutPage.perUnit';
+        ? 'CheckoutPage.perDay'
+        : 'CheckoutPage.perUnit';
 
     const price = currentListing.attributes.price;
     const formattedPrice = formatMoney(intl, price);

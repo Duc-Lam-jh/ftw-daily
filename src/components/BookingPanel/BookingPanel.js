@@ -5,12 +5,12 @@ import { intlShape, injectIntl, FormattedMessage } from '../../util/reactIntl';
 import { arrayOf, array, bool, func, node, oneOfType, shape, string } from 'prop-types';
 import classNames from 'classnames';
 import omit from 'lodash/omit';
-import { propTypes, LISTING_STATE_CLOSED, LINE_ITEM_NIGHT, LINE_ITEM_DAY } from '../../util/types';
+import { propTypes, LISTING_STATE_CLOSED, LINE_ITEM_NIGHT, LINE_ITEM_DAY, LINE_ITEM_HOUR } from '../../util/types';
 import { formatMoney } from '../../util/currency';
 import { parse, stringify } from '../../util/urlHelpers';
 import config from '../../config';
 import { ModalInMobile, Button } from '../../components';
-import { BookingDatesForm } from '../../forms';
+import { BookingStartDateAndTimeForm } from '../../forms';
 
 import css from './BookingPanel.module.css';
 
@@ -82,20 +82,24 @@ const BookingPanel = props => {
   const subTitleText = !!subTitle
     ? subTitle
     : showClosedListingHelpText
-    ? intl.formatMessage({ id: 'BookingPanel.subTitleClosedListing' })
-    : null;
+      ? intl.formatMessage({ id: 'BookingPanel.subTitleClosedListing' })
+      : null;
 
   const isNightly = unitType === LINE_ITEM_NIGHT;
   const isDaily = unitType === LINE_ITEM_DAY;
+  const isHourly = unitType === LINE_ITEM_HOUR;
 
-  const unitTranslationKey = isNightly
-    ? 'BookingPanel.perNight'
-    : isDaily
-    ? 'BookingPanel.perDay'
-    : 'BookingPanel.perUnit';
+  const unitTranslationKey = isHourly
+    ? 'BookingPanel.perHour'
+    : isNightly
+      ? 'BookingPanel.perNight'
+      : isDaily
+        ? 'BookingPanel.perDay'
+        : 'BookingPanel.perUnit';
 
   const classes = classNames(rootClassName || css.root, className);
   const titleClasses = classNames(titleClassName || css.bookingTitle);
+  const { publicData } = listing.attributes;
 
   return (
     <div className={classes}>
@@ -118,12 +122,23 @@ const BookingPanel = props => {
           <h2 className={titleClasses}>{title}</h2>
           {subTitleText ? <div className={css.bookingHelp}>{subTitleText}</div> : null}
         </div>
+
+        <div className={css.priceContainerForDesktop}>
+          <div className={css.priceValue} title={priceTitle}>
+            {formattedPrice}
+          </div>
+          <div className={css.perUnit}>
+            <FormattedMessage id={unitTranslationKey} />
+          </div>
+        </div>
+
         {showBookingDatesForm ? (
-          <BookingDatesForm
+          <BookingStartDateAndTimeForm
             className={css.bookingForm}
             formId="BookingPanel"
             submitButtonWrapperClassName={css.bookingDatesSubmitButtonWrapper}
             unitType={unitType}
+            publicData={publicData}
             onSubmit={onSubmit}
             price={price}
             listingId={listing.id}

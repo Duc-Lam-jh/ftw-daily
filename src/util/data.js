@@ -2,6 +2,8 @@ import isArray from 'lodash/isArray';
 import reduce from 'lodash/reduce';
 import { sanitizeEntity } from './sanitize';
 
+export const ALL_ITEM_KEY = 'both';
+
 /**
  * Combine the given relationships objects
  *

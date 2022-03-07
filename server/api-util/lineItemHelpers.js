@@ -7,6 +7,7 @@ const { getAmountAsDecimalJS, convertDecimalJSToNumber } = require('./currency')
 const { nightsBetween, daysBetween } = require('./dates');
 const LINE_ITEM_NIGHT = 'line-item/night';
 const LINE_ITEM_DAY = 'line-item/day';
+const LINE_ITEM_HOUR = 'line-item/hour';
 
 /** Helper functions for constructing line items*/
 
@@ -100,6 +101,8 @@ exports.calculateQuantityFromDates = (startDate, endDate, type) => {
     return nightsBetween(startDate, endDate);
   } else if (type === LINE_ITEM_DAY) {
     return daysBetween(startDate, endDate);
+  } else if (type === LINE_ITEM_HOUR) {
+    return 1;
   }
   throw new Error(`Can't calculate quantity from dates to unit type: ${type}`);
 };

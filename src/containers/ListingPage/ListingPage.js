@@ -43,6 +43,8 @@ import { TopbarContainer, NotFoundPage } from '../../containers';
 
 import { sendEnquiry, fetchTransactionLineItems, setInitialValues } from './ListingPage.duck';
 import SectionImages from './SectionImages';
+import SectionSubImages from './SectionSubImages';
+import SectionMainImage from './SectionMainImage';
 import SectionAvatar from './SectionAvatar';
 import SectionHeading from './SectionHeading';
 import SectionDescriptionMaybe from './SectionDescriptionMaybe';
@@ -52,6 +54,10 @@ import SectionHostMaybe from './SectionHostMaybe';
 import SectionRulesMaybe from './SectionRulesMaybe';
 import SectionMapMaybe from './SectionMapMaybe';
 import css from './ListingPage.module.css';
+import SectionSubjectLevel from './SectionSubjectLevel';
+import SectionRecommendListingsMaybe from './SectionRecommendListingsMaybe';
+import SectionPaymentMethodMaybe from './SectionPaymentMethodMaybe';
+import { BASE_CLASS_HOURS } from '../../util/dates';
 
 const MIN_LENGTH_FOR_LONG_WORDS_IN_TITLE = 16;
 
@@ -81,7 +87,8 @@ export class ListingPageComponent extends Component {
     const { enquiryModalOpenForListingId, params } = props;
     this.state = {
       pageClassNames: [],
-      imageCarouselOpen: false,
+      mainImageCarouselOpen: false,
+      subImageCarouselOpen: false,
       enquiryModalOpen: enquiryModalOpenForListingId === params.id,
     };
 
@@ -101,14 +108,18 @@ export class ListingPageComponent extends Component {
     const listingId = new UUID(params.id);
     const listing = getListing(listingId);
 
-    const { bookingDates, ...bookingData } = values;
+    const { startDate, startTime, ...bookingData } = values;
+    bookingData.startTime = startTime;
+    const endDateAfterStartDate = new Date();
+    //API requires end date to be after start date so we add one day to the endDate
+    endDateAfterStartDate.setDate(startDate.date.getDate() + 1);
 
     const initialValues = {
       listing,
       bookingData,
       bookingDates: {
-        bookingStart: bookingDates.startDate,
-        bookingEnd: bookingDates.endDate,
+        bookingStart: startDate.date,
+        bookingEnd: endDateAfterStartDate,
       },
       confirmPaymentError: null,
     };
@@ -179,6 +190,7 @@ export class ListingPageComponent extends Component {
       currentUser,
       getListing,
       getOwnListing,
+      getRecommendedListings,
       intl,
       onManageDisableScrolling,
       params: rawParams,
@@ -205,6 +217,8 @@ export class ListingPageComponent extends Component {
       isPendingApprovalVariant || isDraftVariant
         ? ensureOwnListing(getOwnListing(listingId))
         : ensureListing(getListing(listingId));
+
+    const recommendedListings = getRecommendedListings(listingId);
 
     const listingSlug = rawParams.slug || createSlug(currentListing.attributes.title || '');
     const params = { slug: listingSlug, ...rawParams };
@@ -308,14 +322,24 @@ export class ListingPageComponent extends Component {
       );
     }
 
-    const handleViewPhotosClick = e => {
+    const handleViewMainImageClick = e => {
       // Stop event from bubbling up to prevent image click handler
       // trying to open the carousel as well.
       e.stopPropagation();
       this.setState({
-        imageCarouselOpen: true,
+        mainImageCarouselOpen: true,
       });
     };
+
+    const handleViewSubImagesClick = e => {
+      // Stop event from bubbling up to prevent image click handler
+      // trying to open the carousel as well.
+      e.stopPropagation();
+      this.setState({
+        subImageCarouselOpen: true,
+      });
+    };
+
     const authorAvailable = currentListing && currentListing.author;
     const userAndListingAuthorAvailable = !!(currentUser && authorAvailable);
     const isOwnListing =
@@ -330,7 +354,7 @@ export class ListingPageComponent extends Component {
     // banned or deleted display names for the function
     const authorDisplayName = userDisplayNameAsString(ensuredAuthor, '');
 
-    const { formattedPrice, priceTitle } = priceData(price, intl);
+    const { formattedPrice } = priceData(price, intl);
 
     const handleBookingSubmit = values => {
       const isCurrentlyClosed = currentListing.attributes.state === LISTING_STATE_CLOSED;
@@ -376,7 +400,8 @@ export class ListingPageComponent extends Component {
       </NamedLink>
     );
 
-    const amenityOptions = findOptionsForSelectFilter('amenities', filterConfig);
+    const levelOptions = findOptionsForSelectFilter('classLevel', filterConfig);
+    const paymentTypeOptions = findOptionsForSelectFilter('paymentType', filterConfig);
     const categoryOptions = findOptionsForSelectFilter('category', filterConfig);
     const category =
       publicData && publicData.category ? (
@@ -407,7 +432,7 @@ export class ListingPageComponent extends Component {
           <LayoutWrapperTopbar>{topbar}</LayoutWrapperTopbar>
           <LayoutWrapperMain>
             <div>
-              <SectionImages
+              <SectionMainImage
                 title={title}
                 listing={currentListing}
                 isOwnListing={isOwnListing}
@@ -417,17 +442,15 @@ export class ListingPageComponent extends Component {
                   type: listingType,
                   tab: listingTab,
                 }}
-                imageCarouselOpen={this.state.imageCarouselOpen}
-                onImageCarouselClose={() => this.setState({ imageCarouselOpen: false })}
-                handleViewPhotosClick={handleViewPhotosClick}
+                imageCarouselOpen={this.state.mainImageCarouselOpen}
+                onImageCarouselClose={() => this.setState({ mainImageCarouselOpen: false })}
+                handleViewPhotosClick={handleViewMainImageClick}
                 onManageDisableScrolling={onManageDisableScrolling}
               />
               <div className={css.contentContainer}>
                 <SectionAvatar user={currentAuthor} params={params} />
                 <div className={css.mainContent}>
                   <SectionHeading
-                    priceTitle={priceTitle}
-                    formattedPrice={formattedPrice}
                     richTitle={richTitle}
                     category={category}
                     hostLink={hostLink}
@@ -435,14 +458,17 @@ export class ListingPageComponent extends Component {
                     onContactUser={this.onContactUser}
                   />
                   <SectionDescriptionMaybe description={description} />
-                  <SectionFeaturesMaybe options={amenityOptions} publicData={publicData} />
-                  <SectionRulesMaybe publicData={publicData} />
-                  <SectionMapMaybe
-                    geolocation={geolocation}
-                    publicData={publicData}
-                    listingId={currentListing.id}
-                  />
+                  <SectionSubjectLevel options={levelOptions} publicData={publicData} />
+                  <SectionSubImages
+                    title={title}
+                    listing={currentListing}
+                    imageCarouselOpen={this.state.subImageCarouselOpen}
+                    onImageCarouselClose={() => this.setState({ subImageCarouselOpen: false })}
+                    handleViewPhotosClick={handleViewSubImagesClick}
+                    onManageDisableScrolling={onManageDisableScrolling} />
+                  <SectionPaymentMethodMaybe options={paymentTypeOptions} publicData={publicData} />
                   <SectionReviews reviews={reviews} fetchReviewsError={fetchReviewsError} />
+                  <SectionRecommendListingsMaybe recommendedListings={recommendedListings} />
                   <SectionHostMaybe
                     title={title}
                     listing={currentListing}
@@ -558,6 +584,7 @@ const mapStateToProps = state => {
     fetchLineItemsInProgress,
     fetchLineItemsError,
     enquiryModalOpenForListingId,
+    userListingRefs,
   } = state.ListingPage;
   const { currentUser } = state.user;
 
@@ -573,11 +600,18 @@ const mapStateToProps = state => {
     return listings.length === 1 ? listings[0] : null;
   };
 
+  const listingsOfUser = getMarketplaceEntities(state, userListingRefs);
+  const getRecommendedListings = id => {
+    return listingsOfUser.filter(l => l.id.uuid !== id.uuid);
+  }
+
+
   return {
     isAuthenticated,
     currentUser,
     getListing,
     getOwnListing,
+    getRecommendedListings,
     scrollingDisabled: isScrollingDisabled(state),
     enquiryModalOpenForListingId,
     showListingError,

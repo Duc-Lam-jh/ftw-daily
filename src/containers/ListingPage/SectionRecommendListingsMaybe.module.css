@@ -1,0 +1,87 @@
+@import '../../styles/customMediaQueries.css';
+@import '../../styles/propertySets.css';
+
+.sectionRecommendedListings {
+  padding: 0 24px;
+  margin-bottom: 35px;
+
+  @media (--viewportMedium) {
+    padding: 0;
+    margin-bottom: 36px;
+  }
+}
+
+.recommendTitle{
+   /* Font */
+   @apply --marketplaceH3FontStyles;
+   color: var(--matterColorAnti);
+ 
+   margin-top: 0;
+   margin-bottom: 13px;
+   @media (--viewportMedium) {
+     margin-top: 0;
+     margin-bottom: 12px;
+   }
+}
+
+.listingsContainer {
+  @apply --clearfix;
+  border-bottom: 1px solid var(--matterColorNegative);
+  padding-bottom: 23px;
+
+  @media (--viewportMedium) {
+    padding-bottom: 22px;
+  }
+}
+
+.listingsTitle {
+  @apply --marketplaceH3FontStyles;
+  color: var(--matterColorAnti);
+  margin-bottom: 0;
+
+  @media (--viewportMedium) {
+    margin-top: 48px;
+    margin-bottom: 8px;
+  }
+  @media (--viewportLarge) {
+    margin-top: 58px;
+    margin-bottom: 8px;
+  }
+}
+
+.listings {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.listing {
+  width: 100%;
+
+  /* Single column in mobile */
+  margin-top: 34px;
+  &:first-of-type {
+    margin-top: 18px;
+  }
+
+  @media (--viewportMedium) {
+    /* Two columns in desktop */
+    width: calc(50% - 12px);
+    margin-bottom: 36px;
+
+    /* Horizontal space */
+    &:nth-of-type(odd) {
+      margin-right: 12px;
+    }
+    &:nth-of-type(even) {
+      margin-left: 12px;
+    }
+
+    /* Vertical space */
+    margin-top: 0;
+    &:nth-of-type(1),
+    &:nth-of-type(2) {
+      margin-top: 20px;
+    }
+  }
+}

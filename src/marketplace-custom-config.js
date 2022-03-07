@@ -145,7 +145,7 @@ export const filters = [
   },
   {
     id: 'classLevelType',
-    label: 'classLevelType',
+    label: 'Class level type',
     type: 'SelectSingleFilter',
     group: 'secondary',
     queryParamNames: ['pub_classLevelType'],
@@ -158,7 +158,7 @@ export const filters = [
   },
   {
     id: 'classLevel',
-    label: 'classLevel',
+    label: 'Class Level',
     type: 'SelectSingleFilter',
     group: 'secondary',
     queryParamNames: ['pub_classLevel'],
@@ -193,6 +193,34 @@ export const filters = [
         { key: 'both', label: 'Both'},
         { key: 'prepaid', label: 'Prepaid'},
         { key: 'postpaid', label: 'Postpaid' },
+      ],
+    },
+  },
+  {
+    id: 'classStartTime',
+    label: 'classStartTime',
+    type: 'SelectSingleFilter',
+    group: 'secondary',
+    queryParamNames: ['pub_classStartTime'],
+    config: {
+      options:  [
+        { key: '6', label: '6AM' },
+        { key: '7', label: '7AM' },
+        { key: '8', label: '8AM' },
+      ],
+    },
+  },
+  {
+    id: 'classEndTime',
+    label: 'classEndTime',
+    type: 'SelectSingleFilter',
+    group: 'secondary',
+    queryParamNames: ['pub_classEndTime'],
+    config: {
+      options:  [
+        { key: '14', label: '2PM' },
+        { key: '15', label: '3PM' },
+        { key: '16', label: '4PM' },
       ],
     },
   },
